@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kas 7F Spentes - UPT SMP Negeri 1 Wates</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter & Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#1e295b',
+                            900: '#1E3A8A',
+                            950: '#0f172a',
+                        },
+                        emerald: {
+                            500: '#10B981',
+                            600: '#059669',
+                            700: '#047857'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        
+        .tab-active {
+            border-bottom: 3px solid #10B981;
+            color: #1E3A8A;
+            font-weight: 700;
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #10B981;
+            width: 22px;
+            height: 22px;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-800 font-sans min-h-screen flex items-center justify-center p-0 sm:p-4">
+
+    <!-- Mobile Screen Frame Container -->
+    <div class="w-full max-w-md bg-slate-100 min-h-screen sm:min-h-[880px] sm:h-[880px] sm:rounded-3xl shadow-2xl flex flex-col relative overflow-hidden border-0 sm:border border-slate-700/50">
+
+        <!-- PWA INSTALL BANNER -->
+        <div id="pwa-banner" class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white px-4 py-1.5 flex items-center justify-between shadow-md text-xs z-30">
+            <div class="flex items-center space-x-2">
+                <div class="p-1 bg-white/20 rounded-lg">
+                    <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                </div>
+                <div>
+                    <p class="font-semibold leading-tight text-[11px]">Install Kas 7F Spentes</p>
+                    <p class="text-[9px] text-emerald-100">Pasang di Layar Utama HP</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-1.5">
+                <button onclick="triggerPwaInstall()" class="bg-white text-emerald-800 font-bold px-2 py-0.5 rounded-full text-[10px] shadow hover:bg-emerald-50 transition">Install</button>
+                <button onclick="dismissPwaBanner()" class="text-emerald-100 hover:text-white p-0.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- GAS API CONNECTION STATUS BAR -->
+        <div id="api-status-bar" class="bg-slate-900 text-slate-200 px-3 py-2 flex items-center justify-between border-b border-slate-700 text-xs z-20">
+            <div class="flex items-center space-x-1.5 overflow-hidden">
+                <span id="api-status-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping flex-shrink-0"></span>
+                <span id="api-status-text" class="font-medium truncate text-[11px]">Mengecek API Google Sheets...</span>
+            </div>
+            <button onclick="openApiConfigModal()" class="flex-shrink-0 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-extrabold px-2.5 py-1 rounded-lg border border-amber-300 transition shadow flex items-center space-x-1">
+                <span class="text-xs">⚙️</span>
+                <span class="text-[10px] tracking-tight">Set URL Database</span>
+            </button>
+        </div>
+
+        <!-- ================= 1. HALAMAN LOGIN / LANDING SCREEN ================= -->
+        <div id="login-view" class="flex-1 flex flex-col justify-between p-5 overflow-y-auto">
+            <!-- Header School Info -->
+            <div class="text-center pt-1">
+                <div class="inline-flex items-center space-x-1.5 bg-blue-900/10 text-navy-900 border border-blue-900/20 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide uppercase mb-3">
+                    <svg class="w-3.5 h-3.5 text-navy-900" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84l7 3a1 1 0 00.788 0l7-3a1 1 0 000-1.84l-7-3z"/>
+                        <path d="M4.308 10.158L2.5 10.93a1 1 0 000 1.84l7 3a1 1 0 00.788 0l7-3a1 1 0 000-1.84l-1.808-.772-3.804 3.804a2.5 2.5 0 01-3.536 0L4.308 10.158z"/>
+                    </svg>
+                    <span>UPT SMPN 1 Wates Blitar</span>
+                </div>
+
+                <!-- Logo Badge -->
+                <div class="relative w-20 h-20 mx-auto mb-2">
+                    <div class="absolute inset-0 bg-emerald-500 rounded-3xl blur-lg opacity-30 animate-pulse"></div>
+                    <div class="relative w-full h-full bg-gradient-to-tr from-navy-900 to-blue-800 rounded-3xl shadow-xl border-2 border-white/20 flex flex-col items-center justify-center p-2 text-white">
+                        <svg class="w-8 h-8 text-emerald-400 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span class="font-heading text-[10px] font-black tracking-widest text-emerald-300 bg-white/10 px-1.5 py-0.5 rounded">7F</span>
+                    </div>
+                </div>
+
+                <h1 class="font-heading text-xl font-extrabold text-navy-900 tracking-tight">Kas 7F Spentes</h1>
+                <p class="text-[11px] text-slate-500 font-medium">Sistem Transparansi Kas Kelas Digital</p>
+            </div>
+
+            <!-- Mode Selector Switch Tabs -->
+            <div class="my-3">
+                <div class="bg-slate-200 p-1 rounded-2xl flex space-x-1 shadow-inner">
+                    <button id="tab-siswa" onclick="switchTab('siswa')" 
+                        class="flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center space-x-1.5 bg-white text-navy-900 shadow">
+                        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <span>Siswa / Wali</span>
+                    </button>
+
+                    <button id="tab-admin" onclick="switchTab('admin')" 
+                        class="flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center space-x-1.5 text-slate-600 hover:text-navy-900">
+                        <svg class="w-4 h-4 text-navy-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        <span>Admin Kelas</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT 1: SISWA & WALI MURID -->
+            <div id="content-siswa" class="space-y-3">
+                <form onsubmit="handleStudentLogin(event)" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Username / Kode Siswa</label>
+                        <input type="text" id="siswa-username" placeholder="Contoh: WM-01 atau pilih dari list..." class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium uppercase">
+                        <p class="text-[10px] text-slate-400 mt-1">Format username: <span class="font-mono font-bold text-navy-900">WM-[NoAbsen]</span> (Misal: WM-01, WM-15)</p>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Pilih Nama Siswa (Opsi Cepat)</label>
+                        <select id="select-siswa" onchange="autoFillStudentUsername(this)" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium">
+                            <option value="">-- Pilih Nama Siswa Kelas 7F --</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Password</label>
+                        <div class="relative">
+                            <input type="password" id="siswa-password" placeholder="Password (default: siswa7f)" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl pl-3 pr-9 py-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium">
+                            <button type="button" onclick="togglePassword('siswa-password', 'eye-siswa')" class="absolute inset-y-0 right-0 px-3 text-slate-400 hover:text-navy-900">
+                                <svg id="eye-siswa" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-emerald-500/20 flex items-center justify-center space-x-2 transition active:scale-98">
+                        <span>Masuk Mode Siswa / Wali</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </form>
+
+                <div class="text-center">
+                    <button onclick="loginAsGuestSiswa()" class="text-[11px] text-navy-900 hover:text-emerald-700 font-bold underline transition">
+                        ⚡ Masuk Langsung Sebagai Tamu (Tanpa Password)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT 2: ADMIN LOGIN -->
+            <div id="content-admin" class="hidden space-y-3">
+                <form onsubmit="handleAdminLogin(event)" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3 text-xs">
+                    <div class="text-center pb-1">
+                        <span class="text-navy-900 font-extrabold text-sm block">Login Admin Kelas</span>
+                        <span class="text-[10px] text-slate-400">Khusus Wali Kelas & Bendahara Kelas 7F</span>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Username Admin</label>
+                        <div class="relative">
+                            <input type="text" id="admin-username" required placeholder="admin7f" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl pl-9 pr-3 py-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Password Admin</label>
+                        <div class="relative">
+                            <input type="password" id="admin-password" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl pl-9 pr-9 py-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            </div>
+                            <button type="button" onclick="togglePassword('admin-password', 'eye-admin')" class="absolute inset-y-0 right-0 px-3 text-slate-400 hover:text-navy-900">
+                                <svg id="eye-admin" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-navy-900 hover:bg-navy-800 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-navy-900/20 flex items-center justify-center space-x-2 transition active:scale-98">
+                        <span>Masuk Akses Admin</span>
+                        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                    </button>
+
+                    <div class="mt-2 pt-2 border-t border-slate-100 text-center">
+                        <p class="text-[10px] text-amber-700 font-semibold bg-amber-50 py-1 px-2.5 rounded-full inline-block">
+                            💡 Akun Admin: <span class="font-bold">admin7f</span> | Pass: <span class="font-bold">spentes123</span>
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Footer Info -->
+            <div class="mt-3 text-center border-t border-slate-200/60 pt-2">
+                <p class="text-[10px] text-slate-400 font-medium">
+                    UPT SMPN 1 Wates Blitar • Kas 7F Digital PWA
+                </p>
+            </div>
+        </div>
+
+        <!-- ================= 2. HALAMAN MAIN DASHBOARD ================= -->
+        <div id="dashboard-view" class="hidden flex-1 flex-col bg-slate-100 overflow-hidden">
+            
+            <!-- Top App Navigation Bar -->
+            <div class="bg-navy-900 text-white p-3 shadow-md flex items-center justify-between z-10">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-500 text-navy-900 flex items-center justify-center font-heading font-black text-xs shadow-inner">
+                        7F
+                    </div>
+                    <div>
+                        <h2 id="dash-role-title" class="text-xs font-bold leading-tight">Dashboard Kas 7F</h2>
+                        <p id="dash-user-subtitle" class="text-[10px] text-emerald-200">Mode Akses Read-Only</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="openApiConfigModal()" class="px-2 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded-xl text-[11px] font-bold border border-amber-400/30 flex items-center space-x-1 transition" title="Pengaturan Database">
+                        <span>⚙️</span>
+                        <span class="hidden sm:inline">Set API</span>
+                    </button>
+                    <button onclick="fetchDataFromGAS(true)" class="p-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 rounded-xl text-xs transition" title="Refresh Data GS">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    </button>
+                    <button onclick="logout()" class="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-semibold flex items-center space-x-1 transition">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        <span>Keluar</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scrollable Content Body -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-3.5">
+
+                <!-- CARD SALDO UTAMA -->
+                <div class="bg-gradient-to-br from-navy-900 via-blue-900 to-slate-900 text-white p-4 rounded-2xl shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-emerald-500/20 rounded-full blur-2xl"></div>
+                    
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[11px] font-medium text-slate-300">Total Saldo Kas Saat Ini</span>
+                        <span id="lunas-count-badge" class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-semibold">0/32 Siswa Lunas</span>
+                    </div>
+
+                    <h3 id="display-total-saldo" class="font-heading text-3xl font-extrabold text-emerald-400 tracking-tight">Rp 0</h3>
+
+                    <!-- Income vs Expense Mini Stats -->
+                    <div class="grid grid-cols-2 gap-2 mt-3.5 pt-3 border-t border-white/10 text-xs">
+                        <div class="bg-white/5 p-2 rounded-xl border border-white/5">
+                            <span class="text-[10px] text-emerald-200 block font-medium"> Total Pemasukan</span>
+                            <span id="display-total-masuk" class="font-bold text-emerald-300 text-sm">+ Rp 0</span>
+                        </div>
+                        <div class="bg-white/5 p-2 rounded-xl border border-white/5">
+                            <span class="text-[10px] text-rose-200 block font-medium"> Total Pengeluaran</span>
+                            <span id="display-total-keluar" class="font-bold text-rose-300 text-sm">- Rp 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADMIN QUICK ACTIONS -->
+                <div id="admin-actions-bar" class="hidden space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-navy-900"> Aksi Admin Kelas</span>
+                        <span class="text-[10px] text-emerald-700 font-semibold bg-emerald-100 px-2 py-0.5 rounded-full">Mode Admin Full</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="openModal('masuk')" class="bg-emerald-600 hover:bg-emerald-700 text-white p-2.5 rounded-xl font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center space-x-1.5 transition active:scale-95">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                            <span>+ Pemasukan</span>
+                        </button>
+
+                        <button onclick="openModal('keluar')" class="bg-rose-600 hover:bg-rose-700 text-white p-2.5 rounded-xl font-bold text-xs shadow-md shadow-rose-600/20 flex items-center justify-center space-x-1.5 transition active:scale-95">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 12H4"></path></svg>
+                            <span>- Pengeluaran</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- INNER NAVIGATION TABS -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="flex border-b border-slate-200 text-xs">
+                        <button id="nav-tab-matriks" onclick="switchDashTab('matriks')" class="flex-1 py-3 font-semibold text-center tab-active transition">
+                            Matriks Setoran Siswa
+                        </button>
+                        <button id="nav-tab-riwayat" onclick="switchDashTab('riwayat')" class="flex-1 py-3 font-semibold text-center text-slate-500 hover:text-navy-900 transition">
+                            Riwayat Transaksi
+                        </button>
+                    </div>
+
+                    <!-- TAB SECTION 1: MATRIKS SETORAN IURAN SISWA -->
+                    <div id="sec-matriks" class="p-3">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
+                            <h4 class="text-xs font-bold text-navy-900">Status Pembayaran Iuran (Rp 2.000/Minggu)</h4>
+                        </div>
+
+                        <!-- Search Bar -->
+                        <div class="relative mb-3">
+                            <input type="text" id="search-student" oninput="renderStudentMatrix()" placeholder="🔍 Cari nama siswa kelas 7F..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs focus:ring-2 focus:ring-navy-900 outline-none">
+                        </div>
+
+                        <!-- Table Matriks Siswa -->
+                        <div class="overflow-x-auto max-h-[320px] overflow-y-auto pr-1">
+                            <table class="w-full text-[11px] text-left">
+                                <thead class="sticky top-0 bg-slate-100 text-slate-700 font-bold border-b border-slate-200 z-10">
+                                    <tr>
+                                        <th class="p-2">No</th>
+                                        <th class="p-2">Nama Siswa</th>
+                                        <th class="p-2 text-center">M1</th>
+                                        <th class="p-2 text-center">M2</th>
+                                        <th class="p-2 text-center">M3</th>
+                                        <th class="p-2 text-center">M4</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="student-matrix-body" class="divide-y divide-slate-100">
+                                    <!-- Rendered dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- TAB SECTION 2: RIWAYAT TRANSAKSI -->
+                    <div id="sec-riwayat" class="hidden p-3 space-y-3">
+                        <!-- Filter Chips -->
+                        <div class="flex space-x-1.5 text-[11px]">
+                            <button id="filter-all" onclick="filterTransactions('all')" class="px-3 py-1 rounded-full font-bold bg-navy-900 text-white shadow-sm">
+                                Semua
+                            </button>
+                            <button id="filter-in" onclick="filterTransactions('in')" class="px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-emerald-100 hover:text-emerald-800">
+                                Pemasukan (+)
+                            </button>
+                            <button id="filter-out" onclick="filterTransactions('out')" class="px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-rose-100 hover:text-rose-800">
+                                Pengeluaran (-)
+                            </button>
+                        </div>
+
+                        <!-- Transaction List Container -->
+                        <div id="transaction-list" class="space-y-2 max-h-[340px] overflow-y-auto pr-1">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= 3. MODAL SETTING GOOGLE APPS SCRIPT API URL ================= -->
+    <div id="modal-api-config" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl space-y-4 border border-slate-100">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                <h3 class="font-bold text-sm text-navy-900">⚙️ Hubungkan Web App GAS</h3>
+                <button onclick="closeApiConfigModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="space-y-2 text-xs">
+                <p class="text-slate-600 leading-relaxed">
+                    Tempelkan <strong>Web App URL</strong> yang Anda dapatkan saat melakukan <em>Deploy Web App</em> di Google Apps Script:
+                </p>
+                <textarea id="input-api-url" rows="3" placeholder="https://script.google.com/macros/s/AKfycb.../exec" class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-navy-900 outline-none text-[11px] font-mono break-all"></textarea>
+                
+                <!-- Connection Test Result Output -->
+                <div id="test-connection-box" class="hidden p-2 rounded-xl text-[11px] font-medium border"></div>
+
+                <div class="bg-amber-50 border border-amber-200 text-amber-800 p-2.5 rounded-xl text-[10px]">
+                    <strong>Tips:</strong> Pastikan opsi <em>Who has access</em> di Google Apps Script diset ke <strong>Anyone</strong> (Siapa Saja).
+                </div>
+            </div>
+            <div class="flex flex-col space-y-2 pt-1">
+                <button type="button" onclick="testConnectionFromModal()" class="w-full py-2 bg-slate-800 hover:bg-slate-900 text-amber-300 font-bold rounded-xl transition text-xs flex items-center justify-center space-x-1">
+                    <span>🧪 Tes Koneksi API</span>
+                </button>
+                <div class="flex space-x-2">
+                    <button onclick="closeApiConfigModal()" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition text-xs">Batal</button>
+                    <button onclick="saveApiUrlSetting()" class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition text-xs">Simpan & Hubungkan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 4. MODAL INPUT TRANSAKSI ================= -->
+    <div id="modal-form" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl space-y-3.5 border border-slate-100">
+            
+            <div class="flex justify-between items-center border-b border-slate-100 pb-2.5">
+                <div class="flex items-center space-x-2">
+                    <div id="modal-icon-badge" class="p-2 rounded-xl text-white bg-emerald-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    </div>
+                    <h3 id="modal-title" class="font-bold text-sm text-navy-900">Tambah Transaksi Baru</h3>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <form id="tx-form" onsubmit="handleFormSubmit(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="tx-type" value="in">
+
+                <!-- Dynamic Student Selector for Income -->
+                <div id="field-siswa-container">
+                    <label class="block font-semibold text-slate-700 mb-1">Nama Siswa (Setor Kas)</label>
+                    <select id="tx-siswa" class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-navy-900 outline-none bg-white font-medium">
+                        <!-- Options generated dynamically -->
+                    </select>
+                </div>
+
+                <div>
+                    <label id="label-tx-title" class="block font-semibold text-slate-700 mb-1">Judul / Keperluan Transaksi</label>
+                    <input type="text" id="tx-title" required placeholder="Contoh: Iuran Kas Minggu 1 / Beli Spidol" class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-navy-900 outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Nominal (Rp)</label>
+                        <input type="number" id="tx-amount" required min="500" step="500" value="2000" placeholder="2000" class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-navy-900 outline-none font-bold text-slate-800">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Minggu Ke / Kategori</label>
+                        <select id="tx-minggu" class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-navy-900 outline-none bg-white">
+                            <option value="M1">Minggu 1 (M1)</option>
+                            <option value="M2">Minggu 2 (M2)</option>
+                            <option value="M3">Minggu 3 (M3)</option>
+                            <option value="M4">Minggu 4 (M4)</option>
+                            <option value="Pengeluaran Kelas">Pengeluaran Kelas</option>
+                            <option value="Lain-lain">Lain-lain</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Tanggal Transaksi</label>
+                    <input type="date" id="tx-date" required class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-navy-900 outline-none">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Catatan (Opsional)</label>
+                    <input type="text" id="tx-notes" placeholder="Catatan atau bukti nota..." class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-navy-900 outline-none">
+                </div>
+
+                <div class="pt-2 flex space-x-2">
+                    <button type="button" onclick="closeModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition">Batal</button>
+                    <button type="submit" id="btn-save-tx" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-1">
+                        <span id="btn-save-text">Simpan Data</span>
+                        <div id="btn-save-spinner" class="loader hidden"></div>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- LOADING OVERLAY -->
+    <div id="loading-overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 flex items-center justify-center hidden">
+        <div class="bg-white px-5 py-3.5 rounded-2xl shadow-xl flex items-center space-x-3">
+            <div class="loader"></div>
+            <span class="text-xs font-bold text-slate-700">Sinkronisasi Data Google Sheets...</span>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs font-medium opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center space-x-2">
+        <span id="toast-message">Notifikasi</span>
+    </div>
+
+    <!-- ================= 5. JAVASCRIPT APPLICATION SCRIPT ================= -->
+    <script>
+        // =================================================================================
+        // 📌 TEMPELKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI AGAR TERSAMBUNG OTOMATIS:
+        // =================================================================================
+        const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbxZ-3nyw1pcfWjdtlV3V5SAhkc53F-rmITuI9Bah2ZfvevFVVAkBPYSPyB38JT1Updq/exec"; 
+
+        // AUTHENTICATION CONFIGURATION
+        const ADMIN_ACCOUNTS = {
+            'admin7f': 'spentes123',
+            'wali7f': 'wates7f2026'
+        };
+
+        const DEFAULT_STUDENT_PASSWORD = "siswa7f";
+
+        // GET EFFECTIVE API URL
+        function getEffectiveApiUrl() {
+            const savedUrl = localStorage.getItem('kas7f_api_url');
+            if (savedUrl && savedUrl.trim() !== "") return savedUrl.trim();
+            if (DEFAULT_API_URL && DEFAULT_API_URL.trim() !== "" && !DEFAULT_API_URL.includes("PASTE_URL")) return DEFAULT_API_URL.trim();
+            return "";
+        }
+
+        // STATE MANAGEMENT & 32 STUDENTS OF 7F SPENTES
+        let appState = {
+            isAdmin: false,
+            currentUser: null,
+            currentFilter: 'all',
+            students: [
+                { id: 'S01', no: 1, name: 'Ahmad Fauzi', username: 'WM-01', password: 'siswa7f', m1: true, m2: true, m3: true, m4: false },
+                { id: 'S02', no: 2, name: 'Anisa Rahma', username: 'WM-02', password: 'siswa7f', m1: true, m2: true, m3: false, m4: false },
+                { id: 'S03', no: 3, name: 'Budi Santoso', username: 'WM-03', password: 'siswa7f', m1: true, m2: true, m3: true, m4: true },
+                { id: 'S04', no: 4, name: 'Citra Dewi', username: 'WM-04', password: 'siswa7f', m1: true, m2: false, m3: false, m4: false },
+                { id: 'S05', no: 5, name: 'Daffa Pratama', username: 'WM-05', password: 'siswa7f', m1: true, m2: true, m3: true, m4: false },
+                { id: 'S06', no: 6, name: 'Eka Nurhaliza', username: 'WM-06', password: 'siswa7f', m1: true, m2: true, m3: true, m4: true },
+                { id: 'S07', no: 7, name: 'Fajar Nugraha', username: 'WM-07', password: 'siswa7f', m1: true, m2: true, m3: false, m4: false },
+                { id: 'S08', no: 8, name: 'Gita Lestari', username: 'WM-08', password: 'siswa7f', m1: true, m2: true, m3: true, m4: false },
+                { id: 'S09', no: 9, name: 'Hadi Kurniawan', username: 'WM-09', password: 'siswa7f', m1: true, m2: false, m3: false, m4: false },
+                { id: 'S10', no: 10, name: 'Indah Permata', username: 'WM-10', password: 'siswa7f', m1: true, m2: true, m3: true, m4: false },
+                { id: 'S11', no: 11, name: 'Joko Susilo', username: 'WM-11', password: 'siswa7f', m1: true, m2: true, m3: false, m4: false },
+                { id: 'S12', no: 12, name: 'Kartika Sari', username: 'WM-12', password: 'siswa7f', m1: true, m2: true, m3: true, m4: true },
+                { id: 'S13', no: 13, name: 'Lukman Hakim', username: 'WM-13', password: 'siswa7f', m1: true, m2: false, m3: false, m4: false },
+                { id: 'S14', no: 14, name: 'Maya Putri', username: 'WM-14', password: 'siswa7f', m1: true, m2: true, m3: true, m4: false },
+                { id: 'S15', no: 15, name: 'Naufal Azhar', username: 'WM-15', password: 'siswa7f', m1: true, m2: true, m3: false, m4: false },
+                { id: 'S16', no: 16, name: 'Olivia Zhafira', username: 'WM-16', password: 'siswa7f', m1: true, m2: true, m3: true, m4: true },
+                { id: 'S17', no: 17, name: 'Pandu Wijaya', username: 'WM-17', password: 'siswa7f', m1: true, m2: true, m3: false, m4: false },
+                { id: 'S18', no: 18, name: 'Qonita Az-Zahra', username: 'WM-18', password: 'siswa7f', m1: true, m2: true, m3: true, m4: false },
+                { id: 'S19', no: 19, name: 'Rizky Ramadhan', username: 'WM-19', password: 'siswa7f', m1: true, m2: false, m3: false, m4: false },
+                { id: 'S20', no: 20, name: 'Siti Nurhaliza', username: 'WM-20', password: 'siswa7f', m1: true, m2: true, m3: true, m4: true },
+                { id: 'S21', no: 21, name: 'Taufik Hidayat', username: 'WM-21', password: 'siswa7f', m1: true, m2: true, m3: false, m4: false },
+                { id: 'S22', no: 22, name: 'Utama Putra', username: 'WM-22', password: 'siswa7f', m1: true, m2: true, m3: true, m4: false },
+                { id: 'S23', no: 23, name: 'Vina Amelia', username: 'WM-23', password: 'siswa7f', m1: true, m2: true, m3: false, m4: false },
+                { id: 'S24', no: 24, name: 'Wahyu Hidayat', username: 'WM-24', password: 'siswa7f', m1: true, m2: true, m3: true, m4: true },
+                { id: 'S25', no: 25, name: 'Xenia Anggraini', username: 'WM-25', password: 'siswa7f', m1: true, m2: false, m3: false, m4: false },
+                { id: 'S26', no: 26, name: 'Yoga Pratama', username: 'WM-26', password: 'siswa7f', m1: true, m2: true, m3: true, m4: false },
+                { id: 'S27', no: 27, name: 'Zalfa Naqiyya', username: 'WM-27', password: 'siswa7f', m1: true, m2: true, m3: false, m4: false },
+                { id: 'S28', no: 28, name: 'Aditya Permana', username: 'WM-28', password: 'siswa7f', m1: true, m2: true, m3: true, m4: true },
+                { id: 'S29', no: 29, name: 'Bella Safira', username: 'WM-29', password: 'siswa7f', m1: true, m2: false, m3: false, m4: false },
+                { id: 'S30', no: 30, name: 'Candra Kusuma', username: 'WM-30', password: 'siswa7f', m1: true, m2: true, m3: true, m4: false },
+                { id: 'S31', no: 31, name: 'Dina Mariana', username: 'WM-31', password: 'siswa7f', m1: true, m2: true, m3: false, m4: false },
+                { id: 'S32', no: 32, name: 'Erlangga Putra', username: 'WM-32', password: 'siswa7f', m1: true, m2: true, m3: true, m4: true }
+            ],
+            transactions: [
+                { id: 'TRX-101', type: 'in', title: 'Iuran Kas Minggu 1 (32 Siswa)', category: 'Iuran Siswa', amount: 160000, date: '2026-11-01', notes: 'Setoran minggu 1' },
+                { id: 'TRX-102', type: 'out', title: 'Spidol Boardmarker & Penghapus', category: 'Alat Tulis Kelas', amount: 25000, date: '2026-11-02', notes: 'Nota terlampir' },
+                { id: 'TRX-103', type: 'in', title: 'Iuran Kas Minggu 2 (28 Siswa)', category: 'Iuran Siswa', amount: 140000, date: '2026-11-03', notes: 'Iuran minggu 2' },
+                { id: 'TRX-104', type: 'out', title: 'Sapu Kebersihan & Kemoceng', category: 'Kebersihan', amount: 30000, date: '2026-11-04', notes: 'Perlengkapan piket 7F' }
+            ]
+        };
+
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', () => {
+            populateStudentDropdowns();
+            document.getElementById('tx-date').valueAsDate = new Date();
+            fetchDataFromGAS();
+        });
+
+        // USER LOGIN LOGIC
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('admin-username').value.trim();
+            const password = document.getElementById('admin-password').value;
+
+            if (ADMIN_ACCOUNTS[username] && ADMIN_ACCOUNTS[username] === password) {
+                showToast(" Login Admin Berhasil!");
+                openDashboard(true, { username: username, displayName: "Admin Kelas 7F (" + username + ")" });
+            } else {
+                const formCard = document.getElementById('content-admin');
+                formCard.classList.add('animate-shake');
+                showToast(" Username atau Password Admin Salah!");
+                setTimeout(() => formCard.classList.remove('animate-shake'), 400);
+            }
+        }
+
+        function autoFillStudentUsername(selectElem) {
+            const selectedVal = selectElem.value;
+            const inputUsername = document.getElementById('siswa-username');
+            if (selectedVal) {
+                const st = appState.students.find(s => s.id === selectedVal);
+                if (st) {
+                    inputUsername.value = st.username || `WM-${st.no < 10 ? '0' + st.no : st.no}`;
+                }
+            }
+        }
+
+        function handleStudentLogin(event) {
+            event.preventDefault();
+            const usernameInput = document.getElementById('siswa-username').value.trim().toUpperCase();
+            const passwordInput = document.getElementById('siswa-password').value;
+
+            let matchedStudent = null;
+            if (usernameInput.startsWith("WM-")) {
+                const noAbsenStr = usernameInput.replace("WM-", "");
+                const noAbsen = parseInt(noAbsenStr);
+                matchedStudent = appState.students.find(s => s.no === noAbsen);
+            } else {
+                matchedStudent = appState.students.find(s => s.name.toUpperCase().includes(usernameInput));
+            }
+
+            if (!passwordInput || passwordInput === DEFAULT_STUDENT_PASSWORD || passwordInput === "123456" || matchedStudent) {
+                const displayName = matchedStudent ? `${matchedStudent.name} (Absen ${matchedStudent.no})` : (usernameInput || "Siswa Kelas 7F");
+                showToast(" Login Berhasil!");
+                openDashboard(false, { username: usernameInput || 'SISWA', displayName: displayName });
+            } else {
+                showToast("⚠️ Password Siswa Salah! (Default: siswa7f)");
+            }
+        }
+
+        function loginAsGuestSiswa() {
+            showToast(" Akses Tamu Siswa / Wali Murid");
+            openDashboard(false, { username: 'GUEST', displayName: 'Tamu / Wali Murid (Read-Only)' });
+        }
+
+        function togglePassword(inputId, eyeIconId) {
+            const input = document.getElementById(inputId);
+            const eyeIcon = document.getElementById(eyeIconId);
+            if (input.type === "password") {
+                input.type = "text";
+                eyeIcon.setAttribute('stroke', '#10B981');
+            } else {
+                input.type = "password";
+                eyeIcon.setAttribute('stroke', 'currentColor');
+            }
+        }
+
+        // FETCH DATA FROM GOOGLE APPS SCRIPT (doGet)
+        async function fetchDataFromGAS(showToastMsg = false) {
+            const apiUrl = getEffectiveApiUrl();
+            const statusDot = document.getElementById('api-status-dot');
+            const statusText = document.getElementById('api-status-text');
+
+            if (!apiUrl) {
+                statusDot.className = "w-2.5 h-2.5 rounded-full bg-amber-400";
+                statusText.innerText = "Mode Demo (Belum Terhubung GAS API)";
+                if (showToastMsg) showToast("ℹ️ Menggunakan data lokal demo (Set URL API dahulu)");
+                return;
+            }
+
+            statusDot.className = "w-2.5 h-2.5 rounded-full bg-blue-400 animate-ping";
+            statusText.innerText = "Menghubungkan ke Google Sheets...";
+            showLoading(true);
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error("Gagal mengambil data dari GAS");
+                
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    statusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
+                    statusText.innerText = "🟢 Terhubung ke Google Sheets";
+
+                    if (data.siswa && data.siswa.length > 0) {
+                        appState.students = data.siswa.map((s, idx) => ({
+                            id: s.id || ('S' + (idx+1)),
+                            no: parseInt(s.noAbsen) || (idx+1),
+                            name: s.nama,
+                            username: s.username || ('WM-' + (parseInt(s.noAbsen) < 10 ? '0' + parseInt(s.noAbsen) : s.noAbsen)),
+                            password: s.password || DEFAULT_STUDENT_PASSWORD,
+                            m1: false, m2: false, m3: false, m4: false
+                        }));
+                    }
+
+                    let combinedTx = [];
+                    
+                    if (data.kasMasuk && data.kasMasuk.length > 0) {
+                        data.kasMasuk.forEach(m => {
+                            combinedTx.push({
+                                id: m.id,
+                                type: 'in',
+                                title: (m.namaSiswa ? (m.namaSiswa + ' (' + (m.mingguKe || 'Setoran') + ')') : 'Pemasukan Kas'),
+                                category: m.mingguKe || 'Iuran Siswa',
+                                amount: Number(m.jumlah),
+                                date: m.tanggal,
+                                notes: m.keterangan
+                            });
+
+                            if (m.namaSiswa && m.mingguKe) {
+                                const st = appState.students.find(s => s.name.toLowerCase() === m.namaSiswa.toLowerCase());
+                                if (st) {
+                                    const mk = m.mingguKe.toLowerCase();
+                                    if (st[mk] !== undefined) st[mk] = true;
+                                }
+                            }
+                        });
+                    }
+
+                    if (data.kasKeluar && data.kasKeluar.length > 0) {
+                        data.kasKeluar.forEach(k => {
+                            combinedTx.push({
+                                id: k.id,
+                                type: 'out',
+                                title: k.keperluan || 'Pengeluaran Kas',
+                                category: 'Pengeluaran',
+                                amount: Number(k.jumlah),
+                                date: k.tanggal,
+                                notes: k.keterangan
+                            });
+                        });
+                    }
+
+                    if (combinedTx.length > 0) {
+                        combinedTx.sort((a,b) => new Date(b.date) - new Date(a.date));
+                        appState.transactions = combinedTx;
+                    }
+
+                    populateStudentDropdowns();
+                    renderAllDashboardData();
+                    if (showToastMsg) showToast(" Data diperbarui dari Google Sheets!");
+                }
+            } catch (err) {
+                console.warn("GAS Connection Warning:", err);
+                statusDot.className = "w-2.5 h-2.5 rounded-full bg-amber-400";
+                statusText.innerText = "Offline / Mode Demo Lokal";
+                if (showToastMsg) showToast("⚠️ Gagal koneksi API. Menggunakan data demo.");
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // SYNC NEW TRANSACTION TO GOOGLE APPS SCRIPT (doPost)
+        async function syncTransactionToGAS(payload) {
+            const apiUrl = getEffectiveApiUrl();
+            if (!apiUrl) return false;
+
+            try {
+                await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                return true;
+            } catch (err) {
+                console.error("Gagal sync ke GAS:", err);
+                return false;
+            }
+        }
+
+        function populateStudentDropdowns() {
+            const selectLogin = document.getElementById('select-siswa');
+            const selectTx = document.getElementById('tx-siswa');
+
+            selectLogin.innerHTML = `<option value="">-- Lihat Semua Data Kelas 7F --</option>`;
+            selectTx.innerHTML = `<option value="">-- Pilih Nama Siswa --</option>`;
+
+            appState.students.forEach(s => {
+                const optLogin = document.createElement('option');
+                optLogin.value = s.id;
+                optLogin.innerText = `${s.no < 10 ? '0' + s.no : s.no}. ${s.name}`;
+                selectLogin.appendChild(optLogin);
+
+                const optTx = document.createElement('option');
+                optTx.value = s.name;
+                optTx.innerText = `${s.no < 10 ? '0' + s.no : s.no}. ${s.name}`;
+                selectTx.appendChild(optTx);
+            });
+        }
+
+        // TAB SWITCHING LOGIN PAGE
+        function switchTab(mode) {
+            const tabSiswa = document.getElementById('tab-siswa');
+            const tabAdmin = document.getElementById('tab-admin');
+            const contentSiswa = document.getElementById('content-siswa');
+            const contentAdmin = document.getElementById('content-admin');
+
+            if (mode === 'siswa') {
+                tabSiswa.className = "flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center space-x-1.5 bg-white text-navy-900 shadow";
+                tabAdmin.className = "flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center space-x-1.5 text-slate-600 hover:text-navy-900";
+                contentSiswa.classList.remove('hidden');
+                contentAdmin.classList.add('hidden');
+            } else {
+                tabAdmin.className = "flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center space-x-1.5 bg-white text-navy-900 shadow";
+                tabSiswa.className = "flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center space-x-1.5 text-slate-600 hover:text-navy-900";
+                contentAdmin.classList.remove('hidden');
+                contentSiswa.classList.add('hidden');
+            }
+        }
+
+        // DASHBOARD CONTROL
+        function openDashboard(isAdmin, userInfo = {}) {
+            appState.isAdmin = isAdmin;
+            appState.currentUser = userInfo;
+
+            document.getElementById('login-view').classList.add('hidden');
+            const dashView = document.getElementById('dashboard-view');
+            dashView.classList.remove('hidden');
+            dashView.classList.add('flex');
+
+            const roleTitle = document.getElementById('dash-role-title');
+            const userSub = document.getElementById('dash-user-subtitle');
+            const adminBar = document.getElementById('admin-actions-bar');
+
+            if (isAdmin) {
+                roleTitle.innerText = "Dashboard Admin Kas 7F";
+                userSub.innerText = `👤 Akun: ${userInfo.displayName || userInfo.username}`;
+                adminBar.classList.remove('hidden');
+            } else {
+                roleTitle.innerText = "Dashboard Kas 7F Spentes";
+                userSub.innerText = `👤 ${userInfo.displayName || 'Read-Only Siswa/Wali'}`;
+                adminBar.classList.add('hidden');
+            }
+
+            renderAllDashboardData();
+        }
+
+        function logout() {
+            appState.isAdmin = false;
+            appState.currentUser = null;
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('flex');
+            document.getElementById('login-view').classList.remove('hidden');
+            document.getElementById('admin-password').value = "";
+            document.getElementById('siswa-password').value = "";
+            showToast(" Logged out!");
+        }
+
+        // RENDER DASHBOARD DATA
+        function renderAllDashboardData() {
+            let totalIn = 0;
+            let totalOut = 0;
+
+            appState.transactions.forEach(t => {
+                if (t.type === 'in') totalIn += t.amount;
+                else if (t.type === 'out') totalOut += t.amount;
+            });
+
+            const currentSaldo = totalIn - totalOut;
+            const lunasCount = appState.students.filter(s => s.m1 && s.m2 && s.m3 && s.m4).length;
+            document.getElementById('lunas-count-badge').innerText = `${lunasCount}/${appState.students.length} Siswa Lunas`;
+
+            document.getElementById('display-total-saldo').innerText = formatRupiah(currentSaldo);
+            document.getElementById('display-total-masuk').innerText = "+ " + formatRupiah(totalIn);
+            document.getElementById('display-total-keluar').innerText = "- " + formatRupiah(totalOut);
+
+            renderStudentMatrix();
+            renderTransactionList();
+        }
+
+        function renderStudentMatrix() {
+            const tbody = document.getElementById('student-matrix-body');
+            tbody.innerHTML = "";
+            const searchQuery = (document.getElementById('search-student').value || "").toLowerCase();
+
+            const filteredStudents = appState.students.filter(s => 
+                s.name.toLowerCase().includes(searchQuery) || s.no.toString().includes(searchQuery)
+            );
+
+            if (filteredStudents.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-slate-400">Tidak ada siswa ditemukan</td></tr>`;
+                return;
+            }
+
+            filteredStudents.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition";
+                
+                const renderCheck = (isPaid, weekKey) => {
+                    if (appState.isAdmin) {
+                        return `<input type="checkbox" ${isPaid ? 'checked' : ''} onchange="toggleStudentDues('${s.id}', '${s.name}', '${weekKey}', this.checked)" class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 cursor-pointer">`;
+                    } else {
+                        return isPaid 
+                            ? `<span class="inline-block w-4 h-4 text-emerald-600 font-bold">✓</span>` 
+                            : `<span class="inline-block w-2.5 h-2.5 rounded-full bg-slate-300"></span>`;
+                    }
+                };
+
+                tr.innerHTML = `
+                    <td class="p-2 font-bold text-slate-500">${s.no < 10 ? '0'+s.no : s.no}</td>
+                    <td class="p-2 font-semibold text-slate-800">${s.name}</td>
+                    <td class="p-2 text-center">${renderCheck(s.m1, 'm1')}</td>
+                    <td class="p-2 text-center">${renderCheck(s.m2, 'm2')}</td>
+                    <td class="p-2 text-center">${renderCheck(s.m3, 'm3')}</td>
+                    <td class="p-2 text-center">${renderCheck(s.m4, 'm4')}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function toggleStudentDues(siswaId, namaSiswa, weekKey, isChecked) {
+            const student = appState.students.find(s => s.id === siswaId);
+            if (student) {
+                student[weekKey] = isChecked;
+
+                if (isChecked) {
+                    const weekName = weekKey.toUpperCase();
+                    const newTx = {
+                        id: 'TRX-M-' + Date.now(),
+                        type: 'in',
+                        title: `${namaSiswa} (${weekName})`,
+                        category: weekName,
+                        amount: 5000,
+                        date: new Date().toISOString().split('T')[0],
+                        notes: `Iuran Kas ${weekName}`
+                    };
+
+                    appState.transactions.unshift(newTx);
+                    renderAllDashboardData();
+                    showToast(`✅ Setoran ${namaSiswa} (${weekName}) disimpan`);
+
+                    await syncTransactionToGAS({
+                        action: 'addPemasukan',
+                        namaSiswa: namaSiswa,
+                        mingguKe: weekName,
+                        jumlah: 2000,
+                        keterangan: `Iuran ${weekName}`,
+                        tanggal: newTx.date
+                    });
+                } else {
+                    renderAllDashboardData();
+                }
+            }
+        }
+
+        function renderTransactionList() {
+            const container = document.getElementById('transaction-list');
+            container.innerHTML = "";
+
+            let filtered = appState.transactions;
+            if (appState.currentFilter === 'in') filtered = filtered.filter(t => t.type === 'in');
+            if (appState.currentFilter === 'out') filtered = filtered.filter(t => t.type === 'out');
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center py-6 text-slate-400 text-xs">Belum ada catatan transaksi.</div>`;
+                return;
+            }
+
+            filtered.forEach(t => {
+                const isIncome = t.type === 'in';
+                const div = document.createElement('div');
+                div.className = "bg-white p-3 rounded-xl border border-slate-200/80 shadow-sm flex items-center justify-between";
+
+                div.innerHTML = `
+                    <div class="flex items-center space-x-2.5">
+                        <div class="p-2 rounded-xl ${isIncome ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">
+                            ${isIncome 
+                                ? `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m0-16l-4 4m4-4l4 4"></path></svg>`
+                                : `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 20V4m0 20l-4-4m4 4l4-4"></path></svg>`
+                            }
+                        </div>
+                        <div>
+                            <p class="font-bold text-xs text-slate-800 leading-tight">${t.title}</p>
+                            <div class="flex items-center space-x-1.5 mt-0.5">
+                                <span class="text-[9px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-medium">${t.category}</span>
+                                <span class="text-[9px] text-slate-400">${t.date}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-right flex items-center space-x-1.5">
+                        <div>
+                            <p class="font-extrabold text-xs ${isIncome ? 'text-emerald-600' : 'text-rose-600'}">
+                                ${isIncome ? '+' : '-'} ${formatRupiah(t.amount)}
+                            </p>
+                            ${t.notes ? `<p class="text-[9px] text-slate-400 max-w-[90px] truncate">${t.notes}</p>` : ''}
+                        </div>
+                        ${appState.isAdmin ? `
+                            <button onclick="deleteTransaction('${t.id}')" class="text-slate-300 hover:text-rose-600 p-1 transition" title="Hapus Transaksi">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // MODAL INPUT CONTROL
+        function openModal(type) {
+            document.getElementById('tx-type').value = type;
+            const modal = document.getElementById('modal-form');
+            const title = document.getElementById('modal-title');
+            const badge = document.getElementById('modal-icon-badge');
+            const fieldSiswaContainer = document.getElementById('field-siswa-container');
+            const labelTitle = document.getElementById('label-tx-title');
+            const btnSaveText = document.getElementById('btn-save-text');
+
+            if (type === 'masuk') {
+                title.innerText = "Tambah Pemasukan Kas";
+                badge.className = "p-2 rounded-xl text-white bg-emerald-600";
+                fieldSiswaContainer.classList.remove('hidden');
+                labelTitle.innerText = "Judul Transaksi / Keterangan";
+                document.getElementById('tx-amount').value = "2000";
+                btnSaveText.innerText = "Simpan Pemasukan";
+            } else {
+                title.innerText = "Tambah Pengeluaran Kas";
+                badge.className = "p-2 rounded-xl text-white bg-rose-600";
+                fieldSiswaContainer.classList.add('hidden');
+                labelTitle.innerText = "Keperluan Pengeluaran";
+                document.getElementById('tx-amount').value = "";
+                btnSaveText.innerText = "Simpan Pengeluaran";
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modal-form').classList.add('hidden');
+            document.getElementById('tx-form').reset();
+            document.getElementById('tx-date').valueAsDate = new Date();
+        }
+
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const type = document.getElementById('tx-type').value === 'masuk' ? 'in' : 'out';
+            const namaSiswa = document.getElementById('tx-siswa').value;
+            const titleInput = document.getElementById('tx-title').value;
+            const amount = parseInt(document.getElementById('tx-amount').value);
+            const mingguKe = document.getElementById('tx-minggu').value;
+            const date = document.getElementById('tx-date').value;
+            const notes = document.getElementById('tx-notes').value;
+
+            const btnSaveText = document.getElementById('btn-save-text');
+            const btnSpinner = document.getElementById('btn-save-spinner');
+            btnSaveText.classList.add('hidden');
+            btnSpinner.classList.remove('hidden');
+
+            const title = type === 'in' ? (namaSiswa ? `${namaSiswa} (${mingguKe})` : titleInput) : titleInput;
+
+            const newTx = {
+                id: 'TRX-' + (type === 'in' ? 'M-' : 'K-') + Date.now(),
+                type: type,
+                title: title,
+                category: type === 'in' ? mingguKe : 'Pengeluaran',
+                amount: amount,
+                date: date,
+                notes: notes
+            };
+
+            appState.transactions.unshift(newTx);
+            
+            if (type === 'in' && namaSiswa && mingguKe.startsWith('M')) {
+                const st = appState.students.find(s => s.name === namaSiswa);
+                if (st) st[mingguKe.toLowerCase()] = true;
+            }
+
+            renderAllDashboardData();
+
+            const payload = type === 'in' ? {
+                action: 'addPemasukan',
+                namaSiswa: namaSiswa || 'Umum',
+                mingguKe: mingguKe,
+                jumlah: amount,
+                keterangan: notes || titleInput,
+                tanggal: date
+            } : {
+                action: 'addPengeluaran',
+                keperluan: titleInput,
+                jumlah: amount,
+                keterangan: notes,
+                tanggal: date
+            };
+
+            const synced = await syncTransactionToGAS(payload);
+            
+            btnSaveText.classList.remove('hidden');
+            btnSpinner.classList.add('hidden');
+            closeModal();
+
+            if (synced) {
+                showToast(`✅ ${type === 'in' ? 'Pemasukan' : 'Pengeluaran'} tersimpan ke Google Sheets!`);
+            } else {
+                showToast(` Transaksi disimpan secara lokal.`);
+            }
+        }
+
+        function deleteTransaction(id) {
+            appState.transactions = appState.transactions.filter(t => t.id !== id);
+            renderAllDashboardData();
+            showToast(" Transaksi dihapus.");
+        }
+
+        // TAB INNER DASHBOARD SWITCHER
+        function switchDashTab(tab) {
+            const btnMatriks = document.getElementById('nav-tab-matriks');
+            const btnRiwayat = document.getElementById('nav-tab-riwayat');
+            const secMatriks = document.getElementById('sec-matriks');
+            const secRiwayat = document.getElementById('sec-riwayat');
+
+            if (tab === 'matriks') {
+                btnMatriks.className = "flex-1 py-3 font-semibold text-center tab-active transition";
+                btnRiwayat.className = "flex-1 py-3 font-semibold text-center text-slate-500 hover:text-navy-900 transition";
+                secMatriks.classList.remove('hidden');
+                secRiwayat.classList.add('hidden');
+            } else {
+                btnRiwayat.className = "flex-1 py-3 font-semibold text-center tab-active transition";
+                btnMatriks.className = "flex-1 py-3 font-semibold text-center text-slate-500 hover:text-navy-900 transition";
+                secRiwayat.classList.remove('hidden');
+                secMatriks.classList.add('hidden');
+            }
+        }
+
+        function filterTransactions(filterType) {
+            appState.currentFilter = filterType;
+            
+            const btnAll = document.getElementById('filter-all');
+            const btnIn = document.getElementById('filter-in');
+            const btnOut = document.getElementById('filter-out');
+
+            const activeStyle = "px-3 py-1 rounded-full font-bold bg-navy-900 text-white shadow-sm";
+            const inactiveStyle = "px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200";
+
+            btnAll.className = filterType === 'all' ? activeStyle : inactiveStyle;
+            btnIn.className = filterType === 'in' ? activeStyle : inactiveStyle;
+            btnOut.className = filterType === 'out' ? activeStyle : inactiveStyle;
+
+            renderTransactionList();
+        }
+
+        // API CONFIG MODAL & CONNECTION TEST LOGIC
+        function openApiConfigModal() {
+            document.getElementById('input-api-url').value = getEffectiveApiUrl();
+            document.getElementById('test-connection-box').classList.add('hidden');
+            document.getElementById('modal-api-config').classList.remove('hidden');
+        }
+
+        function closeApiConfigModal() {
+            document.getElementById('modal-api-config').classList.add('hidden');
+        }
+
+        async function testConnectionFromModal() {
+            const url = document.getElementById('input-api-url').value.trim();
+            const box = document.getElementById('test-connection-box');
+            box.classList.remove('hidden');
+
+            if (!url) {
+                box.className = "p-2 rounded-xl text-[11px] font-medium border bg-rose-50 border-rose-200 text-rose-800";
+                box.innerText = "❌ Masukkan URL Web App Google Apps Script terlebih dahulu.";
+                return;
+            }
+
+            box.className = "p-2 rounded-xl text-[11px] font-medium border bg-blue-50 border-blue-200 text-blue-800";
+            box.innerText = "⏳ Menguji koneksi ke Google Apps Script...";
+
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                if (data.status === "success") {
+                    box.className = "p-2 rounded-xl text-[11px] font-medium border bg-emerald-50 border-emerald-200 text-emerald-800";
+                    box.innerText = "🟢 Koneksi Berhasil! Google Sheets terhubung dengan lancar.";
+                } else {
+                    box.className = "p-2 rounded-xl text-[11px] font-medium border bg-amber-50 border-amber-200 text-amber-800";
+                    box.innerText = "⚠️ Respon diterima, tapi status bukan success.";
+                }
+            } catch (err) {
+                box.className = "p-2 rounded-xl text-[11px] font-medium border bg-rose-50 border-rose-200 text-rose-800";
+                box.innerText = "❌ Gagal terhubung. Pastikan URL berakhiran /exec dan pengaksesan di-set ke 'Anyone'.";
+            }
+        }
+
+        function saveApiUrlSetting() {
+            const url = document.getElementById('input-api-url').value.trim();
+            if (url) {
+                localStorage.setItem('kas7f_api_url', url);
+                showToast(" URL API Web App berhasil disimpan!");
+            } else {
+                localStorage.removeItem('kas7f_api_url');
+                showToast(" URL API direset ke default.");
+            }
+            closeApiConfigModal();
+            fetchDataFromGAS(true);
+        }
+
+        // UTILITY HELPERS
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number);
+        }
+
+        function showLoading(show) {
+            const overlay = document.getElementById('loading-overlay');
+            if (show) overlay.classList.remove('hidden');
+            else overlay.classList.add('hidden');
+        }
+
+        function dismissPwaBanner() {
+            document.getElementById('pwa-banner').style.display = 'none';
+        }
+
+        function triggerPwaInstall() {
+            showToast("📲 Menambahkan Kas 7F ke layar utama HP...");
+            setTimeout(() => {
+                dismissPwaBanner();
+            }, 1000);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.innerText = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
