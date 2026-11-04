@@ -1,0 +1,21 @@
+{
+  "name": "Kas 7F Spentes",
+  "short_name": "Kas 7F",
+  "description": "Sistem Transparansi Kas Kelas Digital UPT SMP Negeri 1 Wates",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#1E3A8A",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2830/2830284.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2830/2830284.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
