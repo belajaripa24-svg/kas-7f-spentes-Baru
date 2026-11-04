@@ -1,712 +1,751 @@
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kas 7F Spentes - UPT SMP Negeri 1 Wates</title>
     <!-- PWA Manifest & Theme -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1E3A8A">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Kas 7F">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts Inter & Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        navy: {
-                            800: '#1e295b',
-                            900: '#1E3A8A',
-                            950: '#0f172a',
-                        },
-                        emerald: {
-                            500: '#10B981',
-                            600: '#059669',
-                            700: '#047857'
-                        }
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Google Fonts Inter & Poppins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    navy: {
+                        800: '#1e295b',
+                        900: '#1E3A8A',
+                        950: '#0f172a',
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Poppins', 'sans-serif'],
+                    emerald: {
+                        500: '#10B981',
+                        600: '#059669',
+                        700: '#047857'
                     }
+                },
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                    heading: ['Poppins', 'sans-serif'],
                 }
             }
         }
-    </script>
+    }
+</script>
 
-    <style>
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
-        }
-        .animate-shake { animation: shake 0.4s ease-in-out; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
-        .tab-active {
-            border-bottom: 3px solid #10B981;
-            color: #1E3A8A;
-            font-weight: 700;
-        }
-        .loader {
-            border: 3px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 3px solid #10B981;
-            width: 22px;
-            height: 22px;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+<style>
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-8px); }
+        40%, 80% { transform: translateX(8px); }
+    }
+    .animate-shake { animation: shake 0.4s ease-in-out; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    .tab-active {
+        border-bottom: 3px solid #10B981;
+        color: #1E3A8A;
+        font-weight: 700;
+    }
+    .loader {
+        border: 3px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 3px solid #10B981;
+        width: 22px;
+        height: 22px;
+        animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
 </head>
 <body class="bg-slate-900 text-slate-800 font-sans min-h-screen flex items-center justify-center p-0 sm:p-4">
 
-    <!-- Mobile Screen Frame Container -->
-    <div class="w-full max-w-md bg-slate-100 min-h-screen sm:min-h-[880px] sm:h-[880px] sm:rounded-3xl shadow-2xl flex flex-col relative overflow-hidden border-0 sm:border border-slate-700/50">
+<!-- Mobile Screen Frame Container -->
+<div class="w-full max-w-md bg-slate-100 min-h-screen sm:min-h-[880px] sm:h-[880px] sm:rounded-3xl shadow-2xl flex flex-col relative overflow-hidden border-0 sm:border border-slate-700/50">
 
-        <!-- PWA INSTALL BANNER -->
-        <div id="pwa-banner" class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white px-4 py-1.5 flex items-center justify-between shadow-md text-xs z-30">
-            <div class="flex items-center space-x-2">
-                <div class="p-1 bg-white/20 rounded-lg">
-                    <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                </div>
-                <div>
-                    <p class="font-semibold leading-tight text-[11px]">Install Kas 7F Spentes</p>
-                    <p class="text-[9px] text-emerald-100">Pasang di Layar Utama HP & Laptop</p>
+    <!-- PWA INSTALL BANNER -->
+    <div id="pwa-banner" class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white px-4 py-2 flex items-center justify-between shadow-md text-xs z-30">
+        <div class="flex items-center space-x-2">
+            <div class="p-1 bg-white/20 rounded-lg">
+                <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+            </div>
+            <div>
+                <p class="font-semibold leading-tight text-[11px]">Kas 7F Spentes - Siap Dipasang</p>
+                <p class="text-[9px] text-emerald-100">Gunakan menu browser untuk tambah ke Layar Utama</p>
+            </div>
+        </div>
+        <div>
+            <button onclick="dismissPwaBanner()" class="text-emerald-100 hover:text-white p-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- GAS API CONNECTION STATUS BAR -->
+    <div id="api-status-bar" class="bg-slate-900 text-slate-200 px-3 py-2 flex items-center justify-between border-b border-slate-700 text-xs z-20">
+        <div class="flex items-center space-x-1.5 overflow-hidden">
+            <span id="api-status-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping flex-shrink-0"></span>
+            <span id="api-status-text" class="font-medium truncate text-[11px]">Menghubungkan ke Google Sheets...</span>
+        </div>
+        <div class="text-[10px] text-emerald-400 font-semibold px-2 py-0.5 bg-emerald-950 rounded border border-emerald-800">
+            Live DB
+        </div>
+    </div>
+
+    <!-- ================= 1. HALAMAN LOGIN ================= -->
+    <div id="login-view" class="flex-1 flex flex-col justify-between p-5 overflow-y-auto">
+        <div class="text-center pt-1">
+            <div class="inline-flex items-center space-x-1.5 bg-blue-900/10 text-navy-900 border border-blue-900/20 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide uppercase mb-3">
+                <span>UPT SMPN 1 Wates Blitar</span>
+            </div>
+
+            <div class="relative w-20 h-20 mx-auto mb-2">
+                <div class="absolute inset-0 bg-emerald-500 rounded-3xl blur-lg opacity-30 animate-pulse"></div>
+                <div class="relative w-full h-full bg-gradient-to-tr from-navy-900 to-blue-800 rounded-3xl shadow-xl border-2 border-white/20 flex flex-col items-center justify-center p-2 text-white">
+                    <svg class="w-8 h-8 text-emerald-400 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <span class="font-heading text-[10px] font-black tracking-widest text-emerald-300 bg-white/10 px-1.5 py-0.5 rounded">7F</span>
                 </div>
             </div>
-            <div class="flex items-center space-x-1.5">
-                <button id="btn-install-pwa" onclick="triggerPwaInstall()" class="bg-white text-emerald-800 font-bold px-2.5 py-0.5 rounded-full text-[10px] shadow hover:bg-emerald-50 transition">Install</button>
-                <button onclick="dismissPwaBanner()" class="text-emerald-100 hover:text-white p-0.5">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+
+            <h1 class="font-heading text-xl font-extrabold text-navy-900 tracking-tight">Kas 7F Spentes</h1>
+            <p class="text-[11px] text-slate-500 font-medium">Sistem Transparansi Kas Kelas Digital</p>
+        </div>
+
+        <!-- Mode Selector Switch Tabs -->
+        <div class="my-3">
+            <div class="bg-slate-200 p-1 rounded-2xl flex space-x-1 shadow-inner">
+                <button id="tab-siswa" onclick="switchTab('siswa')" 
+                    class="flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center space-x-1.5 bg-white text-navy-900 shadow">
+                    <span>Siswa / Wali</span>
+                </button>
+                <button id="tab-admin" onclick="switchTab('admin')" 
+                    class="flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center space-x-1.5 text-slate-600 hover:text-navy-900">
+                    <span>Admin Kelas</span>
                 </button>
             </div>
         </div>
 
-        <!-- GAS API CONNECTION STATUS BAR -->
-        <div id="api-status-bar" class="bg-slate-900 text-slate-200 px-3 py-2 flex items-center justify-between border-b border-slate-700 text-xs z-20">
-            <div class="flex items-center space-x-1.5 overflow-hidden">
-                <span id="api-status-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping flex-shrink-0"></span>
-                <span id="api-status-text" class="font-medium truncate text-[11px]">Menghubungkan ke Google Sheets...</span>
-            </div>
-            <button onclick="openApiConfigModal()" class="flex-shrink-0 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-extrabold px-2.5 py-1 rounded-lg border border-amber-300 transition shadow flex items-center space-x-1">
-                <span class="text-xs">⚙️</span>
-                <span class="text-[10px] tracking-tight">Database URL</span>
-            </button>
-        </div>
-
-        <!-- ================= 1. HALAMAN LOGIN ================= -->
-        <div id="login-view" class="flex-1 flex flex-col justify-between p-5 overflow-y-auto">
-            <div class="text-center pt-1">
-                <div class="inline-flex items-center space-x-1.5 bg-blue-900/10 text-navy-900 border border-blue-900/20 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide uppercase mb-3">
-                    <span>UPT SMPN 1 Wates Blitar</span>
-                </div>
-
-                <div class="relative w-20 h-20 mx-auto mb-2">
-                    <div class="absolute inset-0 bg-emerald-500 rounded-3xl blur-lg opacity-30 animate-pulse"></div>
-                    <div class="relative w-full h-full bg-gradient-to-tr from-navy-900 to-blue-800 rounded-3xl shadow-xl border-2 border-white/20 flex flex-col items-center justify-center p-2 text-white">
-                        <svg class="w-8 h-8 text-emerald-400 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                        <span class="font-heading text-[10px] font-black tracking-widest text-emerald-300 bg-white/10 px-1.5 py-0.5 rounded">7F</span>
-                    </div>
-                </div>
-
-                <h1 class="font-heading text-xl font-extrabold text-navy-900 tracking-tight">Kas 7F Spentes</h1>
-                <p class="text-[11px] text-slate-500 font-medium">Sistem Transparansi Kas Kelas Digital</p>
-            </div>
-
-            <!-- Mode Selector Switch Tabs -->
-            <div class="my-3">
-                <div class="bg-slate-200 p-1 rounded-2xl flex space-x-1 shadow-inner">
-                    <button id="tab-siswa" onclick="switchTab('siswa')" 
-                        class="flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center space-x-1.5 bg-white text-navy-900 shadow">
-                        <span>Siswa / Wali</span>
-                    </button>
-                    <button id="tab-admin" onclick="switchTab('admin')" 
-                        class="flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center space-x-1.5 text-slate-600 hover:text-navy-900">
-                        <span>Admin Kelas</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- TAB CONTENT: SISWA -->
-            <div id="content-siswa" class="space-y-3">
-                <form onsubmit="handleStudentLogin(event)" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3 text-xs">
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Username / Kode Siswa</label>
-                        <input type="text" id="siswa-username" placeholder="Contoh: WM-01" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium uppercase">
-                        <p class="text-[10px] text-slate-400 mt-1">Format username: <span class="font-mono font-bold text-navy-900">WM-[NoAbsen]</span></p>
-                    </div>
-
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Pilih Nama Siswa (Opsi Cepat)</label>
-                        <select id="select-siswa" onchange="autoFillStudentUsername(this)" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium">
-                            <option value="">-- Pilih Nama Siswa Kelas 7F --</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Password</label>
-                        <input type="password" id="siswa-password" placeholder="Password (default: siswa7f)" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium">
-                    </div>
-
-                    <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition active:scale-98">
-                        <span>Masuk Mode Siswa / Wali</span>
-                    </button>
-                </form>
-
-                <div class="text-center">
-                    <button onclick="loginAsGuestSiswa()" class="text-[11px] text-navy-900 hover:text-emerald-700 font-bold underline transition">
-                        ⚡ Masuk Sebagai Tamu (Read-Only)
-                    </button>
-                </div>
-            </div>
-
-            <!-- TAB CONTENT: ADMIN -->
-            <div id="content-admin" class="hidden space-y-3">
-                <form onsubmit="handleAdminLogin(event)" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3 text-xs">
-                    <div class="text-center pb-1">
-                        <span class="text-navy-900 font-extrabold text-sm block">Login Admin Kelas</span>
-                        <span class="text-[10px] text-slate-400">Khusus Wali Kelas & Bendahara Kelas 7F</span>
-                    </div>
-
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Username Admin</label>
-                        <input type="text" id="admin-username" required placeholder="admin7f" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium">
-                    </div>
-
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Password Admin</label>
-                        <input type="password" id="admin-password" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium">
-                    </div>
-
-                    <button type="submit" class="w-full bg-navy-900 hover:bg-navy-800 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition active:scale-98">
-                        <span>Masuk Akses Admin</span>
-                    </button>
-
-                    <div class="mt-2 pt-2 border-t border-slate-100 text-center">
-                        <p class="text-[10px] text-amber-700 font-semibold bg-amber-50 py-1 px-2.5 rounded-full inline-block">
-                            💡 Akun Admin: <span class="font-bold">admin7f</span> | Pass: <span class="font-bold">spentes123</span>
-                        </p>
-                    </div>
-                </form>
-            </div>
-
-            <div class="mt-3 text-center border-t border-slate-200/60 pt-2">
-                <p class="text-[10px] text-slate-400 font-medium">UPT SMPN 1 Wates Blitar • Kas 7F Digital PWA</p>
-            </div>
-        </div>
-
-        <!-- ================= 2. DASHBOARD VIEW ================= -->
-        <div id="dashboard-view" class="hidden flex-1 flex-col bg-slate-100 overflow-hidden">
-            <div class="bg-navy-900 text-white p-3 shadow-md flex items-center justify-between z-10">
-                <div class="flex items-center space-x-2.5">
-                    <div class="w-8 h-8 rounded-xl bg-emerald-500 text-navy-900 flex items-center justify-center font-heading font-black text-xs shadow-inner">7F</div>
-                    <div>
-                        <h2 id="dash-role-title" class="text-xs font-bold leading-tight">Dashboard Kas 7F</h2>
-                        <p id="dash-user-subtitle" class="text-[10px] text-emerald-200">Terhubung Google Sheets</p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-1.5">
-                    <button onclick="fetchDataFromGAS(true)" class="p-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 rounded-xl text-xs transition" title="Refresh Data">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                    </button>
-                    <button onclick="logout()" class="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-semibold flex items-center space-x-1 transition">
-                        <span>Keluar</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="flex-1 overflow-y-auto p-4 space-y-3.5">
-                <!-- CARD SALDO -->
-                <div class="bg-gradient-to-br from-navy-900 via-blue-900 to-slate-900 text-white p-4 rounded-2xl shadow-xl relative overflow-hidden">
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="text-[11px] font-medium text-slate-300">Total Saldo Kas Saat Ini</span>
-                        <span id="lunas-count-badge" class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-semibold">0/32 Siswa Lunas</span>
-                    </div>
-                    <h3 id="display-total-saldo" class="font-heading text-3xl font-extrabold text-emerald-400 tracking-tight">Rp 0</h3>
-
-                    <div class="grid grid-cols-2 gap-2 mt-3.5 pt-3 border-t border-white/10 text-xs">
-                        <div class="bg-white/5 p-2 rounded-xl border border-white/5">
-                            <span class="text-[10px] text-emerald-200 block font-medium">Total Pemasukan</span>
-                            <span id="display-total-masuk" class="font-bold text-emerald-300 text-sm">+ Rp 0</span>
-                        </div>
-                        <div class="bg-white/5 p-2 rounded-xl border border-white/5">
-                            <span class="text-[10px] text-rose-200 block font-medium">Total Pengeluaran</span>
-                            <span id="display-total-keluar" class="font-bold text-rose-300 text-sm">- Rp 0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ADMIN QUICK ACTIONS -->
-                <div id="admin-actions-bar" class="hidden space-y-2">
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="openModal('masuk')" class="bg-emerald-600 hover:bg-emerald-700 text-white p-2.5 rounded-xl font-bold text-xs shadow-md flex items-center justify-center space-x-1.5 transition">
-                            <span>+ Pemasukan</span>
-                        </button>
-                        <button onclick="openModal('keluar')" class="bg-rose-600 hover:bg-rose-700 text-white p-2.5 rounded-xl font-bold text-xs shadow-md flex items-center justify-center space-x-1.5 transition">
-                            <span>- Pengeluaran</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- TABS CONTAINER -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                    <div class="flex border-b border-slate-200 text-xs">
-                        <button id="nav-tab-matriks" onclick="switchDashTab('matriks')" class="flex-1 py-3 font-semibold text-center tab-active transition">Matriks Setoran Siswa</button>
-                        <button id="nav-tab-riwayat" onclick="switchDashTab('riwayat')" class="flex-1 py-3 font-semibold text-center text-slate-500 hover:text-navy-900 transition">Riwayat Transaksi</button>
-                    </div>
-
-                    <!-- MATRIKS TAB -->
-                    <div id="sec-matriks" class="p-3">
-                        <div class="flex justify-between items-center mb-2">
-                            <h4 class="text-xs font-bold text-navy-900">Status Pembayaran Iuran (Rp 2.000/Minggu)</h4>
-                        </div>
-                        <div class="relative mb-3">
-                            <input type="text" id="search-student" oninput="renderStudentMatrix()" placeholder="🔍 Cari nama siswa kelas 7F..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs outline-none focus:ring-2 focus:ring-navy-900">
-                        </div>
-                        <div class="overflow-x-auto max-h-[320px] overflow-y-auto pr-1">
-                            <table class="w-full text-[11px] text-left">
-                                <thead class="sticky top-0 bg-slate-100 text-slate-700 font-bold border-b border-slate-200 z-10">
-                                    <tr>
-                                        <th class="p-2">No</th>
-                                        <th class="p-2">Nama Siswa</th>
-                                        <th class="p-2 text-center">M1</th>
-                                        <th class="p-2 text-center">M2</th>
-                                        <th class="p-2 text-center">M3</th>
-                                        <th class="p-2 text-center">M4</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="student-matrix-body" class="divide-y divide-slate-100"></tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- RIWAYAT TAB -->
-                    <div id="sec-riwayat" class="hidden p-3 space-y-3">
-                        <div class="flex space-x-1.5 text-[11px]">
-                            <button id="filter-all" onclick="filterTransactions('all')" class="px-3 py-1 rounded-full font-bold bg-navy-900 text-white shadow-sm">Semua</button>
-                            <button id="filter-in" onclick="filterTransactions('in')" class="px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600">Pemasukan</button>
-                            <button id="filter-out" onclick="filterTransactions('out')" class="px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600">Pengeluaran</button>
-                        </div>
-                        <div id="transaction-list" class="space-y-2 max-h-[340px] overflow-y-auto pr-1"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL API CONFIG -->
-    <div id="modal-api-config" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl space-y-4">
-            <h3 class="font-bold text-sm text-navy-900">⚙️ Atur URL Google Apps Script</h3>
-            <textarea id="input-api-url" rows="3" placeholder="https://script.google.com/macros/s/.../exec" class="w-full p-2.5 rounded-xl border border-slate-300 text-[11px] font-mono outline-none"></textarea>
-            <div class="flex space-x-2">
-                <button onclick="closeApiConfigModal()" class="flex-1 py-2 bg-slate-100 font-bold rounded-xl text-xs">Batal</button>
-                <button onclick="saveApiUrlSetting()" class="flex-1 py-2 bg-emerald-600 text-white font-bold rounded-xl text-xs">Simpan</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL INPUT TRANSAKSI -->
-    <div id="modal-form" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl space-y-3.5">
-            <div class="flex justify-between items-center border-b pb-2">
-                <h3 id="modal-title" class="font-bold text-sm text-navy-900">Tambah Transaksi</h3>
-                <button onclick="closeModal()">✕</button>
-            </div>
-            <form id="tx-form" onsubmit="handleFormSubmit(event)" class="space-y-3 text-xs">
-                <input type="hidden" id="tx-type" value="in">
-                <div id="field-siswa-container">
-                    <label class="block font-semibold mb-1">Nama Siswa</label>
-                    <select id="tx-siswa" class="w-full p-2.5 rounded-xl border bg-white font-medium"></select>
-                </div>
+        <!-- TAB CONTENT: SISWA -->
+        <div id="content-siswa" class="space-y-3">
+            <form onsubmit="handleStudentLogin(event)" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3 text-xs">
                 <div>
-                    <label id="label-tx-title" class="block font-semibold mb-1">Keterangan / Keperluan</label>
-                    <input type="text" id="tx-title" required class="w-full p-2.5 rounded-xl border outline-none">
+                    <label class="block font-semibold text-slate-700 mb-1">Username / Kode Siswa</label>
+                    <input type="text" id="siswa-username" required placeholder="Contoh: WM-01" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium uppercase">
+                    <p class="text-[10px] text-slate-400 mt-1">Format username: <span class="font-mono font-bold text-navy-900">WM-[NoAbsen]</span></p>
                 </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="block font-semibold mb-1">Nominal (Rp)</label>
-                        <input type="number" id="tx-amount" required value="2000" class="w-full p-2.5 rounded-xl border outline-none font-bold">
-                    </div>
-                    <div>
-                        <label class="block font-semibold mb-1">Minggu / Kategori</label>
-                        <select id="tx-minggu" class="w-full p-2.5 rounded-xl border bg-white">
-                            <option value="M1">Minggu 1 (M1)</option>
-                            <option value="M2">Minggu 2 (M2)</option>
-                            <option value="M3">Minggu 3 (M3)</option>
-                            <option value="M4">Minggu 4 (M4)</option>
-                        </select>
-                    </div>
-                </div>
+
                 <div>
-                    <label class="block font-semibold mb-1">Tanggal</label>
-                    <input type="date" id="tx-date" required class="w-full p-2.5 rounded-xl border outline-none">
+                    <label class="block font-semibold text-slate-700 mb-1">Password</label>
+                    <input type="password" id="siswa-password" placeholder="Password (default: siswa7f)" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium">
                 </div>
-                <div class="flex space-x-2 pt-2">
-                    <button type="button" onclick="closeModal()" class="flex-1 py-2.5 bg-slate-100 font-bold rounded-xl">Batal</button>
-                    <button type="submit" class="flex-1 py-2.5 bg-emerald-600 text-white font-bold rounded-xl shadow-md">Simpan</button>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition active:scale-98">
+                    <span>Masuk Mode Siswa / Wali</span>
+                </button>
+            </form>
+
+            <div class="text-center">
+                <button onclick="loginAsGuestSiswa()" class="text-[11px] text-navy-900 hover:text-emerald-700 font-bold underline transition">
+                    ⚡ Masuk Sebagai Tamu (Read-Only)
+                </button>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT: ADMIN -->
+        <div id="content-admin" class="hidden space-y-3">
+            <form onsubmit="handleAdminLogin(event)" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3 text-xs">
+                <div class="text-center pb-1">
+                    <span class="text-navy-900 font-extrabold text-sm block">Login Admin Kelas</span>
+                    <span class="text-[10px] text-slate-400">Khusus Wali Kelas & Bendahara Kelas 7F</span>
                 </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Username Admin</label>
+                    <input type="text" id="admin-username" required placeholder="admin7f" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Password Admin</label>
+                    <input type="password" id="admin-password" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-navy-900 font-medium">
+                </div>
+
+                <button type="submit" class="w-full bg-navy-900 hover:bg-navy-800 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition active:scale-98">
+                    <span>Masuk Akses Admin</span>
+                </button>
             </form>
         </div>
+
+        <div class="mt-3 text-center border-t border-slate-200/60 pt-2">
+            <p class="text-[10px] text-slate-400 font-medium">UPT SMPN 1 Wates Blitar • Kas 7F Digital PWA</p>
+        </div>
     </div>
 
-    <script>
-        // =================================================================================
-        // TEMPELKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI BAWAH INI:
-        // =================================================================================
-        const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbxZ-3nyw1pcfWjdtlV3V5SAhkc53F-rmITuI9Bah2ZfvevFVVAkBPYSPyB38JT1Updq/exec"; 
+    <!-- ================= 2. DASHBOARD VIEW ================= -->
+    <div id="dashboard-view" class="hidden flex-1 flex-col bg-slate-100 overflow-hidden">
+        <div class="bg-navy-900 text-white p-3 shadow-md flex items-center justify-between z-10">
+            <div class="flex items-center space-x-2.5">
+                <div class="w-8 h-8 rounded-xl bg-emerald-500 text-navy-900 flex items-center justify-center font-heading font-black text-xs shadow-inner">7F</div>
+                <div>
+                    <h2 id="dash-role-title" class="text-xs font-bold leading-tight">Dashboard Kas 7F</h2>
+                    <p id="dash-user-subtitle" class="text-[10px] text-emerald-200">Terhubung Google Sheets</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-1.5">
+                <button onclick="fetchDataFromGAS(true)" class="p-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 rounded-xl text-xs transition" title="Refresh Data">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                </button>
+                <button onclick="logout()" class="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-semibold flex items-center space-x-1 transition">
+                    <span>Keluar</span>
+                </button>
+            </div>
+        </div>
 
-        const ADMIN_ACCOUNTS = { 'admin7f': 'spentes123', 'wali7f': 'wates7f2026' };
-        let appState = {
-            isAdmin: false,
-            currentUser: null,
-            currentFilter: 'all',
-            students: [],
-            transactions: []
-        };
+        <div class="flex-1 overflow-y-auto p-4 space-y-3.5">
+            <!-- CARD SALDO -->
+            <div class="bg-gradient-to-br from-navy-900 via-blue-900 to-slate-900 text-white p-4 rounded-2xl shadow-xl relative overflow-hidden">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-[11px] font-medium text-slate-300">Total Saldo Kas Saat Ini</span>
+                    <span id="lunas-count-badge" class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-semibold">0/32 Siswa Lunas</span>
+                </div>
+                <h3 id="display-total-saldo" class="font-heading text-3xl font-extrabold text-emerald-400 tracking-tight">Rp 0</h3>
 
-        // PWA Install Prompt Variable
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            const banner = document.getElementById('pwa-banner');
-            if (banner) banner.style.display = 'flex';
+                <div class="grid grid-cols-2 gap-2 mt-3.5 pt-3 border-t border-white/10 text-xs">
+                    <div class="bg-white/5 p-2 rounded-xl border border-white/5">
+                        <span class="text-[10px] text-emerald-200 block font-medium">Total Pemasukan</span>
+                        <span id="display-total-masuk" class="font-bold text-emerald-300 text-sm">+ Rp 0</span>
+                    </div>
+                    <div class="bg-white/5 p-2 rounded-xl border border-white/5">
+                        <span class="text-[10px] text-rose-200 block font-medium">Total Pengeluaran</span>
+                        <span id="display-total-keluar" class="font-bold text-rose-300 text-sm">- Rp 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN QUICK ACTIONS -->
+            <div id="admin-actions-bar" class="hidden space-y-2">
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="openModal('masuk')" class="bg-emerald-600 hover:bg-emerald-700 text-white p-2.5 rounded-xl font-bold text-xs shadow-md flex items-center justify-center space-x-1.5 transition">
+                        <span>+ Pemasukan</span>
+                    </button>
+                    <button onclick="openModal('keluar')" class="bg-rose-600 hover:bg-rose-700 text-white p-2.5 rounded-xl font-bold text-xs shadow-md flex items-center justify-center space-x-1.5 transition">
+                        <span>- Pengeluaran</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TABS CONTAINER -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="flex border-b border-slate-200 text-xs">
+                    <button id="nav-tab-matriks" onclick="switchDashTab('matriks')" class="flex-1 py-3 font-semibold text-center tab-active transition">Matriks Setoran Siswa</button>
+                    <button id="nav-tab-riwayat" onclick="switchDashTab('riwayat')" class="flex-1 py-3 font-semibold text-center text-slate-500 hover:text-navy-900 transition">Riwayat Transaksi</button>
+                </div>
+
+                <!-- MATRIKS TAB -->
+                <div id="sec-matriks" class="p-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="text-xs font-bold text-navy-900">Status Pembayaran Iuran (Rp 2.000/Minggu)</h4>
+                    </div>
+                    <div class="relative mb-3">
+                        <input type="text" id="search-student" oninput="renderStudentMatrix()" placeholder="🔍 Cari nama siswa kelas 7F..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs outline-none focus:ring-2 focus:ring-navy-900">
+                    </div>
+                    <div class="overflow-x-auto max-h-[320px] overflow-y-auto pr-1">
+                        <table class="w-full text-[11px] text-left">
+                            <thead class="sticky top-0 bg-slate-100 text-slate-700 font-bold border-b border-slate-200 z-10">
+                                <tr>
+                                    <th class="p-2">No</th>
+                                    <th class="p-2">Nama Siswa</th>
+                                    <th class="p-2 text-center">M1</th>
+                                    <th class="p-2 text-center">M2</th>
+                                    <th class="p-2 text-center">M3</th>
+                                    <th class="p-2 text-center">M4</th>
+                                </tr>
+                            </thead>
+                            <tbody id="student-matrix-body" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- RIWAYAT TAB -->
+                <div id="sec-riwayat" class="hidden p-3 space-y-3">
+                    <div class="flex space-x-1.5 text-[11px]">
+                        <button id="filter-all" onclick="filterTransactions('all')" class="px-3 py-1 rounded-full font-bold bg-navy-900 text-white shadow-sm">Semua</button>
+                        <button id="filter-in" onclick="filterTransactions('in')" class="px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600">Pemasukan</button>
+                        <button id="filter-out" onclick="filterTransactions('out')" class="px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600">Pengeluaran</button>
+                    </div>
+                    <div id="transaction-list" class="space-y-2 max-h-[340px] overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL INPUT TRANSAKSI -->
+<div id="modal-form" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl space-y-3.5">
+        <div class="flex justify-between items-center border-b pb-2">
+            <h3 id="modal-title" class="font-bold text-sm text-navy-900">Tambah Transaksi</h3>
+            <button onclick="closeModal()">✕</button>
+        </div>
+        <form id="tx-form" onsubmit="handleFormSubmit(event)" class="space-y-3 text-xs">
+            <input type="hidden" id="tx-type" value="in">
+            <div id="field-siswa-container">
+                <label class="block font-semibold mb-1">Nama Siswa</label>
+                <select id="tx-siswa" class="w-full p-2.5 rounded-xl border bg-white font-medium"></select>
+            </div>
+            <div>
+                <label id="label-tx-title" class="block font-semibold mb-1">Keterangan / Keperluan</label>
+                <input type="text" id="tx-title" required class="w-full p-2.5 rounded-xl border outline-none">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block font-semibold mb-1">Nominal (Rp)</label>
+                    <input type="number" id="tx-amount" required value="2000" class="w-full p-2.5 rounded-xl border outline-none font-bold">
+                </div>
+                <div>
+                    <label class="block font-semibold mb-1">Minggu / Kategori</label>
+                    <select id="tx-minggu" class="w-full p-2.5 rounded-xl border bg-white">
+                        <option value="M1">Minggu 1 (M1)</option>
+                        <option value="M2">Minggu 2 (M2)</option>
+                        <option value="M3">Minggu 3 (M3)</option>
+                        <option value="M4">Minggu 4 (M4)</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label class="block font-semibold mb-1">Tanggal</label>
+                <input type="date" id="tx-date" required class="w-full p-2.5 rounded-xl border outline-none">
+            </div>
+            <div class="flex space-x-2 pt-2">
+                <button type="button" onclick="closeModal()" class="flex-1 py-2.5 bg-slate-100 font-bold rounded-xl">Batal</button>
+                <button type="submit" class="flex-1 py-2.5 bg-emerald-600 text-white font-bold rounded-xl shadow-md">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL KONFIRMASI HAPUS -->
+<div id="modal-confirm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl space-y-4 text-center">
+        <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto text-xl font-bold">⚠️</div>
+        <h3 class="font-bold text-sm text-navy-900">Konfirmasi Hapus</h3>
+        <p id="confirm-message" class="text-xs text-slate-500">Apakah Anda yakin ingin menghapus transaksi ini?</p>
+        <div class="flex space-x-2 pt-2">
+            <button onclick="closeConfirmModal()" class="flex-1 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl text-xs">Batal</button>
+            <button id="btn-confirm-yes" class="flex-1 py-2.5 bg-rose-600 text-white font-bold rounded-xl text-xs shadow-md">Hapus</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toast-box" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-900/90 text-white px-4 py-2 rounded-2xl text-xs font-semibold shadow-xl transition-all duration-300 opacity-0 pointer-events-none z-50"></div>
+
+<script>
+    // URL Google Apps Script yang sudah tertanam permanen
+    const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbxZ-3nyw1pcfWjdtlV3V5SAhkc53F-rmITuI9Bah2ZfvevFVVAkBPYSPyB38JT1Updq/exec"; 
+
+    const ADMIN_ACCOUNTS = { 'admin7f': 'spentes123', 'wali7f': 'wates7f2026' };
+    let appState = {
+        isAdmin: false,
+        currentUser: null,
+        currentFilter: 'all',
+        students: [],
+        transactions: []
+    };
+
+    let pendingDeleteId = null;
+    let pendingDeleteData = null;
+
+    function showToast(msg) {
+        const t = document.getElementById('toast-box');
+        t.innerText = msg;
+        t.classList.remove('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+            t.classList.add('opacity-0', 'pointer-events-none');
+        }, 3000);
+    }
+
+    function dismissPwaBanner() {
+        document.getElementById('pwa-banner').style.display = 'none';
+    }
+
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('ServiceWorker registered! Scope:', reg.scope))
+                .catch(err => console.log('ServiceWorker registration failed: ', err));
         });
+    }
 
-        function triggerPwaInstall() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    }
-                    deferredPrompt = null;
-                });
-            } else {
-                alert(`Untuk memasang aplikasi:
+    window.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('tx-date').valueAsDate = new Date();
+        fetchDataFromGAS();
+    });
 
-• Di HP (Android): Ketuk titik tiga (⋮) di Chrome -> Pilih 'Tambahkan ke Layar Utama'.
-• Di HP (iPhone): Ketuk tombol Share -> Pilih 'Tambahkan ke Layar Utama'.
-• Di Laptop: Klik ikon install di ujung kanan address bar browser.`);
-            }
+    async function fetchDataFromGAS(showToastMsg = false) {
+        const url = DEFAULT_API_URL;
+        const dot = document.getElementById('api-status-dot');
+        const txt = document.getElementById('api-status-text');
+
+        if (!url) {
+            dot.className = "w-2.5 h-2.5 rounded-full bg-amber-400";
+            txt.innerText = "URL API belum diset";
+            return;
         }
 
-        function dismissPwaBanner() {
-            document.getElementById('pwa-banner').style.display = 'none';
-        }
+        dot.className = "w-2.5 h-2.5 rounded-full bg-blue-400 animate-ping";
+        txt.innerText = "Menghubungkan ke Google Sheets...";
 
-        // Register Service Worker for PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('ServiceWorker registered! Scope:', reg.scope))
-                    .catch(err => console.log('ServiceWorker registration failed: ', err));
-            });
-        }
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.status === "success") {
+                dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
+                txt.innerText = "🟢 Terhubung ke Google Sheets";
 
-        function getEffectiveApiUrl() {
-            const saved = localStorage.getItem('kas7f_api_url');
-            if (saved && saved.trim() !== "") return saved.trim();
-            if (DEFAULT_API_URL && !DEFAULT_API_URL.includes("AKfycb...")) return DEFAULT_API_URL.trim();
-            return "";
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('tx-date').valueAsDate = new Date();
-            fetchDataFromGAS();
-        });
-
-        async function fetchDataFromGAS(showToastMsg = false) {
-            const url = getEffectiveApiUrl();
-            const dot = document.getElementById('api-status-dot');
-            const txt = document.getElementById('api-status-text');
-
-            if (!url) {
-                dot.className = "w-2.5 h-2.5 rounded-full bg-amber-400";
-                txt.innerText = "Belum terhubung GAS API (Mode Lokal)";
-                return;
-            }
-
-            dot.className = "w-2.5 h-2.5 rounded-full bg-blue-400 animate-ping";
-            txt.innerText = "Menghubungkan ke Google Sheets...";
-
-            try {
-                const res = await fetch(url);
-                const data = await res.json();
-                if (data.status === "success") {
-                    dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
-                    txt.innerText = "🟢 Terhubung ke Google Sheets";
-
-                    if (data.siswa) {
-                        appState.students = data.siswa.map((s, idx) => ({
-                            id: s.id || ('S' + (idx+1)),
-                            no: parseInt(s.noAbsen) || (idx+1),
-                            name: s.nama,
-                            username: s.username || ('WM-' + (parseInt(s.noAbsen) < 10 ? '0' + parseInt(s.noAbsen) : s.noAbsen)),
-                            password: s.password || "siswa7f",
-                            m1: false, m2: false, m3: false, m4: false
-                        }));
-                    }
-
-                    let combined = [];
-                    if (data.kasMasuk) {
-                        data.kasMasuk.forEach(m => {
-                            combined.push({
-                                id: m.id, type: 'in',
-                                title: m.namaSiswa ? `${m.namaSiswa} (${m.mingguKe || 'Setoran'})` : 'Pemasukan',
-                                category: m.mingguKe || 'Iuran', amount: Number(m.jumlah), date: m.tanggal, notes: m.keterangan
-                            });
-                            if (m.namaSiswa && m.mingguKe) {
-                                const st = appState.students.find(s => s.name.toLowerCase() === m.namaSiswa.toLowerCase());
-                                if (st) st[m.mingguKe.toLowerCase()] = true;
-                            }
-                        });
-                    }
-                    if (data.kasKeluar) {
-                        data.kasKeluar.forEach(k => {
-                            combined.push({
-                                id: k.id, type: 'out',
-                                title: k.keperluan || 'Pengeluaran', category: 'Pengeluaran',
-                                amount: Number(k.jumlah), date: k.tanggal, notes: k.keterangan
-                            });
-                        });
-                    }
-                    combined.sort((a,b) => new Date(b.date) - new Date(a.date));
-                    appState.transactions = combined;
-
-                    populateStudentDropdowns();
-                    renderAllDashboardData();
-                    if (showToastMsg) alert("Data berhasil disinkronkan dari Google Sheets!");
+                if (data.siswa) {
+                    appState.students = data.siswa.map((s, idx) => ({
+                        id: s.id || ('S' + (idx+1)),
+                        no: parseInt(s.noAbsen) || (idx+1),
+                        name: s.nama,
+                        username: s.username || ('WM-' + (parseInt(s.noAbsen) < 10 ? '0' + parseInt(s.noAbsen) : s.noAbsen)),
+                        password: s.password || "siswa7f",
+                        m1: false, m2: false, m3: false, m4: false
+                    }));
                 }
-            } catch (err) {
-                dot.className = "w-2.5 h-2.5 rounded-full bg-rose-500";
-                txt.innerText = "Koneksi Google Sheets Gagal";
+
+                let combined = [];
+                if (data.kasMasuk) {
+                    data.kasMasuk.forEach(m => {
+                        combined.push({
+                            id: m.id, type: 'in',
+                            title: m.namaSiswa ? `${m.namaSiswa} (${m.mingguKe || 'Setoran'})` : 'Pemasukan',
+                            category: m.mingguKe || 'Iuran', amount: Number(m.jumlah), date: m.tanggal, notes: m.keterangan
+                        });
+                        if (m.namaSiswa && m.mingguKe) {
+                            const st = appState.students.find(s => s.name.toLowerCase() === m.namaSiswa.toLowerCase());
+                            if (st) st[m.mingguKe.toLowerCase()] = true;
+                        }
+                    });
+                }
+                if (data.kasKeluar) {
+                    data.kasKeluar.forEach(k => {
+                        combined.push({
+                            id: k.id, type: 'out',
+                            title: k.keperluan || 'Pengeluaran', category: 'Pengeluaran',
+                            amount: Number(k.jumlah), date: k.tanggal, notes: k.keterangan
+                        });
+                    });
+                }
+                combined.sort((a,b) => new Date(b.date) - new Date(a.date));
+                appState.transactions = combined;
+
+                populateStudentDropdowns();
+                renderAllDashboardData();
+                if (showToastMsg) showToast("Data berhasil disinkronkan dari Google Sheets!");
             }
+        } catch (err) {
+            dot.className = "w-2.5 h-2.5 rounded-full bg-rose-500";
+            txt.innerText = "Koneksi Google Sheets Gagal";
         }
+    }
 
-        async function syncToGAS(payload) {
-            const url = getEffectiveApiUrl();
-            if (!url) return;
-            try {
-                await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
-                });
-            } catch (e) { console.error(e); }
-        }
+    async function syncToGAS(payload) {
+        const url = DEFAULT_API_URL;
+        if (!url) return;
+        try {
+            await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            });
+        } catch (e) { console.error(e); }
+    }
 
-        function populateStudentDropdowns() {
-            const selLogin = document.getElementById('select-siswa');
-            const selTx = document.getElementById('tx-siswa');
-            selLogin.innerHTML = `<option value="">-- Pilih Nama Siswa Kelas 7F --</option>`;
+    function populateStudentDropdowns() {
+        const selTx = document.getElementById('tx-siswa');
+        if (selTx) {
             selTx.innerHTML = `<option value="">-- Pilih Nama Siswa --</option>`;
-
             appState.students.forEach(s => {
                 const label = `${s.no < 10 ? '0' + s.no : s.no}. ${s.name}`;
-                selLogin.add(new Option(label, s.id));
                 selTx.add(new Option(label, s.name));
             });
         }
+    }
 
-        function switchTab(mode) {
-            const isSiswa = mode === 'siswa';
-            document.getElementById('tab-siswa').className = isSiswa ? "flex-1 py-2 px-3 rounded-xl text-xs font-bold bg-white text-navy-900 shadow" : "flex-1 py-2 px-3 rounded-xl text-xs font-bold text-slate-600";
-            document.getElementById('tab-admin').className = !isSiswa ? "flex-1 py-2 px-3 rounded-xl text-xs font-bold bg-white text-navy-900 shadow" : "flex-1 py-2 px-3 rounded-xl text-xs font-bold text-slate-600";
-            document.getElementById('content-siswa').classList.toggle('hidden', !isSiswa);
-            document.getElementById('content-admin').classList.toggle('hidden', isSiswa);
+    function switchTab(mode) {
+        const isSiswa = mode === 'siswa';
+        document.getElementById('tab-siswa').className = isSiswa ? "flex-1 py-2 px-3 rounded-xl text-xs font-bold bg-white text-navy-900 shadow" : "flex-1 py-2 px-3 rounded-xl text-xs font-bold text-slate-600";
+        document.getElementById('tab-admin').className = !isSiswa ? "flex-1 py-2 px-3 rounded-xl text-xs font-bold bg-white text-navy-900 shadow" : "flex-1 py-2 px-3 rounded-xl text-xs font-bold text-slate-600";
+        document.getElementById('content-siswa').classList.toggle('hidden', !isSiswa);
+        document.getElementById('content-admin').classList.toggle('hidden', isSiswa);
+    }
+
+    function handleStudentLogin(e) {
+        e.preventDefault();
+        const u = document.getElementById('siswa-username').value.trim().toUpperCase();
+        
+        const st = appState.students.find(s => 
+            s.username.toUpperCase() === u || 
+            s.name.toUpperCase() === u || 
+            s.no.toString() === u
+        );
+
+        const displayName = st ? `${st.name} (${st.username})` : (u || 'Siswa 7F');
+        openDashboard(false, { displayName: displayName });
+    }
+
+    function handleAdminLogin(e) {
+        e.preventDefault();
+        const u = document.getElementById('admin-username').value.trim();
+        const p = document.getElementById('admin-password').value;
+        if (ADMIN_ACCOUNTS[u] && ADMIN_ACCOUNTS[u] === p) {
+            openDashboard(true, { displayName: `Admin (${u})` });
+        } else {
+            showToast("Username atau Password Admin salah!");
         }
+    }
 
-        function autoFillStudentUsername(sel) {
-            const st = appState.students.find(s => s.id === sel.value);
-            if (st) document.getElementById('siswa-username').value = st.username;
-        }
+    function loginAsGuestSiswa() {
+        openDashboard(false, { displayName: 'Tamu / Wali Murid' });
+    }
 
-        function handleStudentLogin(e) {
-            e.preventDefault();
-            const u = document.getElementById('siswa-username').value.trim().toUpperCase();
-            openDashboard(false, { displayName: u || 'Siswa 7F' });
-        }
+    function openDashboard(isAdmin, info) {
+        appState.isAdmin = isAdmin;
+        document.getElementById('login-view').classList.add('hidden');
+        const dash = document.getElementById('dashboard-view');
+        dash.classList.remove('hidden');
+        dash.classList.add('flex');
+        document.getElementById('dash-role-title').innerText = isAdmin ? "Dashboard Admin Kas 7F" : "Dashboard Kas 7F Spentes";
+        document.getElementById('dash-user-subtitle').innerText = info.displayName;
+        document.getElementById('admin-actions-bar').classList.toggle('hidden', !isAdmin);
+        renderAllDashboardData();
+    }
 
-        function handleAdminLogin(e) {
-            e.preventDefault();
-            const u = document.getElementById('admin-username').value.trim();
-            const p = document.getElementById('admin-password').value;
-            if (ADMIN_ACCOUNTS[u] && ADMIN_ACCOUNTS[u] === p) {
-                openDashboard(true, { displayName: `Admin (${u})` });
+    function logout() {
+        document.getElementById('dashboard-view').classList.add('hidden');
+        document.getElementById('dashboard-view').classList.remove('flex');
+        document.getElementById('login-view').classList.remove('hidden');
+    }
+
+    function switchDashTab(tabName) {
+        const isMatriks = tabName === 'matriks';
+        document.getElementById('nav-tab-matriks').className = isMatriks ? "flex-1 py-3 font-semibold text-center tab-active transition" : "flex-1 py-3 font-semibold text-center text-slate-500 hover:text-navy-900 transition";
+        document.getElementById('nav-tab-riwayat').className = !isMatriks ? "flex-1 py-3 font-semibold text-center tab-active transition" : "flex-1 py-3 font-semibold text-center text-slate-500 hover:text-navy-900 transition";
+        document.getElementById('sec-matriks').classList.toggle('hidden', !isMatriks);
+        document.getElementById('sec-riwayat').classList.toggle('hidden', isMatriks);
+    }
+
+    function filterTransactions(type) {
+        appState.currentFilter = type;
+        ['all', 'in', 'out'].forEach(t => {
+            const btn = document.getElementById('filter-' + t);
+            if (t === type) {
+                btn.className = "px-3 py-1 rounded-full font-bold bg-navy-900 text-white shadow-sm";
             } else {
-                alert("Username atau Password Admin salah!");
+                btn.className = "px-3 py-1 rounded-full font-semibold bg-slate-100 text-slate-600";
+            }
+        });
+        renderTransactionList();
+    }
+
+    function renderAllDashboardData() {
+        let totalIn = 0, totalOut = 0;
+        appState.transactions.forEach(t => {
+            if (t.type === 'in') totalIn += t.amount;
+            else totalOut += t.amount;
+        });
+        const lunas = appState.students.filter(s => s.m1 && s.m2 && s.m3 && s.m4).length;
+        document.getElementById('lunas-count-badge').innerText = `${lunas}/${appState.students.length} Siswa Lunas`;
+        document.getElementById('display-total-saldo').innerText = formatRupiah(totalIn - totalOut);
+        document.getElementById('display-total-masuk').innerText = "+ " + formatRupiah(totalIn);
+        document.getElementById('display-total-keluar').innerText = "- " + formatRupiah(totalOut);
+
+        renderStudentMatrix();
+        renderTransactionList();
+    }
+
+    function renderStudentMatrix() {
+        const tbody = document.getElementById('student-matrix-body');
+        tbody.innerHTML = "";
+        const q = (document.getElementById('search-student').value || "").toLowerCase();
+        const filtered = appState.students.filter(s => s.name.toLowerCase().includes(q) || s.no.toString().includes(q));
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-slate-400">Tidak ada data</td></tr>`;
+            return;
+        }
+
+        filtered.forEach(s => {
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-slate-50";
+            const chk = (val, wk) => appState.isAdmin ? 
+                `<input type="checkbox" ${val ? 'checked' : ''} onchange="toggleDues('${s.id}', '${s.name}', '${wk}', this.checked)" class="w-4 h-4 text-emerald-600 rounded cursor-pointer">` :
+                (val ? `<span class="text-emerald-600 font-bold">✓</span>` : `<span class="w-2.5 h-2.5 rounded-full bg-slate-300 inline-block"></span>`);
+
+            tr.innerHTML = `
+                <td class="p-2 font-bold text-slate-500">${s.no < 10 ? '0'+s.no : s.no}</td>
+                <td class="p-2 font-semibold text-slate-800">${s.name}</td>
+                <td class="p-2 text-center">${chk(s.m1, 'm1')}</td>
+                <td class="p-2 text-center">${chk(s.m2, 'm2')}</td>
+                <td class="p-2 text-center">${chk(s.m3, 'm3')}</td>
+                <td class="p-2 text-center">${chk(s.m4, 'm4')}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    async function toggleDues(id, name, wk, checked) {
+        const st = appState.students.find(s => s.id === id);
+        if (st) {
+            st[wk] = checked;
+            if (checked) {
+                const week = wk.toUpperCase();
+                appState.transactions.unshift({
+                    id: 'TRX-M-' + Date.now(), type: 'in',
+                    title: `${name} (${week})`, category: week, amount: 2000,
+                    date: new Date().toISOString().split('T')[0], notes: `Iuran Kas ${week}`
+                });
+                renderAllDashboardData();
+                await syncToGAS({ action: 'addPemasukan', namaSiswa: name, mingguKe: week, jumlah: 2000, keterangan: `Iuran ${week}`, tanggal: new Date().toISOString().split('T')[0] });
+            } else {
+                renderAllDashboardData();
             }
         }
+    }
 
-        function loginAsGuestSiswa() {
-            openDashboard(false, { displayName: 'Tamu / Wali Murid' });
+    function renderTransactionList() {
+        const list = document.getElementById('transaction-list');
+        list.innerHTML = "";
+        let filtered = appState.transactions;
+        if (appState.currentFilter === 'in') filtered = filtered.filter(t => t.type === 'in');
+        if (appState.currentFilter === 'out') filtered = filtered.filter(t => t.type === 'out');
+
+        if (filtered.length === 0) {
+            list.innerHTML = `<div class="text-center py-4 text-slate-400 text-xs">Belum ada transaksi</div>`;
+            return;
         }
 
-        function openDashboard(isAdmin, info) {
-            appState.isAdmin = isAdmin;
-            document.getElementById('login-view').classList.add('hidden');
-            const dash = document.getElementById('dashboard-view');
-            dash.classList.remove('hidden');
-            dash.classList.add('flex');
-            document.getElementById('dash-role-title').innerText = isAdmin ? "Dashboard Admin Kas 7F" : "Dashboard Kas 7F Spentes";
-            document.getElementById('dash-user-subtitle').innerText = info.displayName;
-            document.getElementById('admin-actions-bar').classList.toggle('hidden', !isAdmin);
-            renderAllDashboardData();
-        }
+        filtered.forEach(t => {
+            const inb = t.type === 'in';
+            const div = document.createElement('div');
+            div.className = "bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex justify-between items-center";
+            
+            const deleteBtn = appState.isAdmin ? `
+                <button onclick="promptDeleteTransaction('${t.id}', '${t.type}', '${t.title}', '${t.category}')" class="text-rose-500 hover:text-rose-700 p-1 rounded transition" title="Hapus Transaksi">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 2 0 00-2-2h-4a1 2 0 00-2 2v3M4 7h16"></path></svg>
+                </button>
+            ` : '';
 
-        function logout() {
-            document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('dashboard-view').classList.remove('flex');
-            document.getElementById('login-view').classList.remove('hidden');
-        }
-
-        function renderAllDashboardData() {
-            let totalIn = 0, totalOut = 0;
-            appState.transactions.forEach(t => {
-                if (t.type === 'in') totalIn += t.amount;
-                else totalOut += t.amount;
-            });
-            const lunas = appState.students.filter(s => s.m1 && s.m2 && s.m3 && s.m4).length;
-            document.getElementById('lunas-count-badge').innerText = `${lunas}/${appState.students.length} Siswa Lunas`;
-            document.getElementById('display-total-saldo').innerText = formatRupiah(totalIn - totalOut);
-            document.getElementById('display-total-masuk').innerText = "+ " + formatRupiah(totalIn);
-            document.getElementById('display-total-keluar').innerText = "- " + formatRupiah(totalOut);
-
-            renderStudentMatrix();
-            renderTransactionList();
-        }
-
-        function renderStudentMatrix() {
-            const tbody = document.getElementById('student-matrix-body');
-            tbody.innerHTML = "";
-            const q = (document.getElementById('search-student').value || "").toLowerCase();
-            const filtered = appState.students.filter(s => s.name.toLowerCase().includes(q) || s.no.toString().includes(q));
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-slate-400">Tidak ada data</td></tr>`;
-                return;
-            }
-
-            filtered.forEach(s => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
-                const chk = (val, wk) => appState.isAdmin ? 
-                    `<input type="checkbox" ${val ? 'checked' : ''} onchange="toggleDues('${s.id}', '${s.name}', '${wk}', this.checked)" class="w-4 h-4 text-emerald-600 rounded cursor-pointer">` :
-                    (val ? `<span class="text-emerald-600 font-bold">✓</span>` : `<span class="w-2.5 h-2.5 rounded-full bg-slate-300 inline-block"></span>`);
-
-                tr.innerHTML = `
-                    <td class="p-2 font-bold text-slate-500">${s.no < 10 ? '0'+s.no : s.no}</td>
-                    <td class="p-2 font-semibold text-slate-800">${s.name}</td>
-                    <td class="p-2 text-center">${chk(s.m1, 'm1')}</td>
-                    <td class="p-2 text-center">${chk(s.m2, 'm2')}</td>
-                    <td class="p-2 text-center">${chk(s.m3, 'm3')}</td>
-                    <td class="p-2 text-center">${chk(s.m4, 'm4')}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        async function toggleDues(id, name, wk, checked) {
-            const st = appState.students.find(s => s.id === id);
-            if (st) {
-                st[wk] = checked;
-                if (checked) {
-                    const week = wk.toUpperCase();
-                    appState.transactions.unshift({
-                        id: 'TRX-M-' + Date.now(), type: 'in',
-                        title: `${name} (${week})`, category: week, amount: 2000,
-                        date: new Date().toISOString().split('T')[0], notes: `Iuran Kas ${week}`
-                    });
-                    renderAllDashboardData();
-                    await syncToGAS({ action: 'addPemasukan', namaSiswa: name, mingguKe: week, jumlah: 2000, keterangan: `Iuran ${week}`, tanggal: new Date().toISOString().split('T')[0] });
-                } else {
-                    renderAllDashboardData();
-                }
-            }
-        }
-
-        function renderTransactionList() {
-            const list = document.getElementById('transaction-list');
-            list.innerHTML = "";
-            let filtered = appState.transactions;
-            if (appState.currentFilter === 'in') filtered = filtered.filter(t => t.type === 'in');
-            if (appState.currentFilter === 'out') filtered = filtered.filter(t => t.type === 'out');
-
-            filtered.forEach(t => {
-                const inb = t.type === 'in';
-                const div = document.createElement('div');
-                div.className = "bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex justify-between items-center";
-                div.innerHTML = `
-                    <div>
-                        <p class="font-bold text-xs text-slate-800">${t.title}</p>
-                        <span class="text-[9px] text-slate-400">${t.date} • ${t.category}</span>
-                    </div>
+            div.innerHTML = `
+                <div class="flex-1 pr-2">
+                    <p class="font-bold text-xs text-slate-800">${t.title}</p>
+                    <span class="text-[9px] text-slate-400">${t.date} • ${t.category}</span>
+                </div>
+                <div class="flex items-center space-x-2">
                     <span class="font-bold text-xs ${inb ? 'text-emerald-600' : 'text-rose-600'}">${inb ? '+' : '-'} ${formatRupiah(t.amount)}</span>
-                `;
-                list.appendChild(div);
+                    ${deleteBtn}
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function promptDeleteTransaction(id, type, title, category) {
+        pendingDeleteId = id;
+        pendingDeleteData = { type, title, category };
+        document.getElementById('confirm-message').innerText = `Apakah Anda yakin ingin menghapus transaksi:\n"${title}"?`;
+        document.getElementById('modal-confirm').classList.remove('hidden');
+        document.getElementById('btn-confirm-yes').onclick = executeDeleteTransaction;
+    }
+
+    function closeConfirmModal() {
+        document.getElementById('modal-confirm').classList.add('hidden');
+        pendingDeleteId = null;
+        pendingDeleteData = null;
+    }
+
+    async function executeDeleteTransaction() {
+        if (!pendingDeleteId) return;
+        const { type, title, category } = pendingDeleteData;
+        const id = pendingDeleteId;
+        closeConfirmModal();
+
+        appState.transactions = appState.transactions.filter(t => t.id !== id);
+
+        if (type === 'in' && ['M1', 'M2', 'M3', 'M4'].includes(category)) {
+            appState.students.forEach(st => {
+                if (title.toLowerCase().includes(st.name.toLowerCase())) {
+                    if (category === 'M1') st.m1 = false;
+                    if (category === 'M2') st.m2 = false;
+                    if (category === 'M3') st.m3 = false;
+                    if (category === 'M4') st.m4 = false;
+                }
             });
         }
 
-        function openModal(type) {
-            document.getElementById('tx-type').value = type;
-            document.getElementById('field-siswa-container').classList.toggle('hidden', type === 'keluar');
-            document.getElementById('modal-form').classList.remove('hidden');
-        }
+        renderAllDashboardData();
+        showToast("Transaksi berhasil dihapus");
 
-        function closeModal() { document.getElementById('modal-form').classList.add('hidden'); }
+        await syncToGAS({
+            action: 'deleteTransaction',
+            id: id,
+            type: type,
+            category: category
+        });
+    }
 
-        async function handleFormSubmit(e) {
-            e.preventDefault();
-            const type = document.getElementById('tx-type').value === 'masuk' ? 'in' : 'out';
-            const namaSiswa = document.getElementById('tx-siswa').value;
-            const title = document.getElementById('tx-title').value;
-            const amount = Number(document.getElementById('tx-amount').value);
-            const mingguKe = document.getElementById('tx-minggu').value;
-            const date = document.getElementById('tx-date').value;
+    function openModal(type) {
+        document.getElementById('tx-type').value = type;
+        document.getElementById('field-siswa-container').classList.toggle('hidden', type === 'keluar');
+        document.getElementById('modal-form').classList.remove('hidden');
+    }
 
-            appState.transactions.unshift({
-                id: 'TRX-' + Date.now(), type, title: type === 'in' ? `${namaSiswa} (${mingguKe})` : title,
-                category: type === 'in' ? mingguKe : 'Pengeluaran', amount, date, notes: title
-            });
-            renderAllDashboardData();
-            closeModal();
+    function closeModal() { document.getElementById('modal-form').classList.add('hidden'); }
 
-            await syncToGAS(type === 'in' ? 
-                { action: 'addPemasukan', namaSiswa: namaSiswa || 'Umum', mingguKe, jumlah: amount, keterangan: title, tanggal: date } :
-                { action: 'addPengeluaran', keperluan: title, jumlah: amount, keterangan: '', tanggal: date }
-            );
-        }
+    async function handleFormSubmit(e) {
+        e.preventDefault();
+        const type = document.getElementById('tx-type').value === 'masuk' ? 'in' : 'out';
+        const namaSiswa = document.getElementById('tx-siswa').value;
+        const title = document.getElementById('tx-title').value;
+        const amount = Number(document.getElementById('tx-amount').value);
+        const mingguKe = document.getElementById('tx-minggu').value;
+        const date = document.getElementById('tx-date').value;
 
-        function formatRupiah(n) {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
-        }
+        appState.transactions.unshift({
+            id: 'TRX-' + Date.now(), type, title: type === 'in' ? `${namaSiswa} (${mingguKe})` : title,
+            category: type === 'in' ? mingguKe : 'Pengeluaran', amount, date, notes: title
+        });
+        renderAllDashboardData();
+        closeModal();
+        showToast("Transaksi berhasil ditambahkan");
 
-        function openApiConfigModal() { document.getElementById('modal-api-config').classList.remove('hidden'); }
-        function closeApiConfigModal() { document.getElementById('modal-api-config').classList.add('hidden'); }
-        function saveApiUrlSetting() {
-            const url = document.getElementById('input-api-url').value.trim();
-            if (url) localStorage.setItem('kas7f_api_url', url);
-            closeApiConfigModal();
-            fetchDataFromGAS(true);
-        }
-    </script>
+        await syncToGAS(type === 'in' ? 
+            { action: 'addPemasukan', namaSiswa: namaSiswa || 'Umum', mingguKe, jumlah: amount, keterangan: title, tanggal: date } :
+            { action: 'addPengeluaran', keperluan: title, jumlah: amount, keterangan: '', tanggal: date }
+        );
+    }
+
+    function formatRupiah(n) {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+    }
+</script>
 </body>
 </html>
